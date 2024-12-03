@@ -134,7 +134,7 @@ uint8_t walksat(uint64_t seed, uint64_t max_time_s, uint64_t num_variables, uint
             flip_var = abs(clause[uint64_t(dist_float01(engine) * clause.size())]);
         } else {
             // pick best var
-            int64_t best_diff = -99999999;
+            int64_t best_diff = std::INT64_MIN;
             var_t best_var = 0;
             for (var_t v=1; v < num_variables+1; v++) {
                 int64_t diff = int64_t(var_unsat_to_sat[v]) - int64_t(var_sat_to_unsat[v]);
