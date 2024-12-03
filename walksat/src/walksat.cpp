@@ -98,7 +98,6 @@ uint8_t walksat(uint64_t seed, uint64_t max_time_s, uint64_t num_variables, uint
     std::vector<uint64_t> clause_unsat_list; // clause_unsat_list: list of unsat clauses
     std::vector<uint64_t> var_sat_to_unsat(num_variables+1); // var_sat_to_unsat[10] = 20 : var 10 makes 20 clauses sat -> unsat
     std::vector<uint64_t> var_unsat_to_sat(num_variables+1); // var_sat_to_unsat[10] = 20 : var 10 makes 20 clauses unsat -> sat
-    std::vector<int64_t> var_diff(num_variables+1);
 
     uint64_t loop_count = 0;
     while (true) {
