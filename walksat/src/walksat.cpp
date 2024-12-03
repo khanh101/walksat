@@ -79,7 +79,6 @@ uint8_t walksat(uint64_t seed, uint64_t max_time_s, uint64_t num_variables, uint
     }
 
     // init assignment
-    std::uniform_int_distribution<uint8_t> dist_int01(0, 1);
     std::uniform_real_distribution<double> dist_float01(0, 1);
     std::default_random_engine engine(seed);
 
