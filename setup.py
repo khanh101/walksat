@@ -18,7 +18,7 @@ if __name__ == "__main__":
             setuptools.Extension(
                 name=f"{MODULE}.wrapper",
                 sources=[
-                    os.path.join(MODULE, "src/walksat.cpp"),
+                    os.path.join(MODULE, "src", "walksat.cpp"),
                     os.path.join(MODULE, "wrapper.pyx")
                 ],
                 language="c++",
