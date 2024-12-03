@@ -7,6 +7,6 @@ extern "C" {
     // walksat : 
     // cnf : <num_variables> <num_clauses> ...
     // out : binnary string
-    uint8_t walksat(uint64_t seed, uint64_t max_time_s, uint64_t num_variables, uint64_t num_clauses, int64_t* formula_flatten, uint8_t* assignment);
+    uint8_t walksat(uint64_t seed, uint64_t max_time_s, uint64_t num_variables, uint64_t num_clauses, int64_t* formula_flatten, int8_t* assignment);
 }
 #endif // _WALKSAT_H_ 

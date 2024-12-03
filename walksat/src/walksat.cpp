@@ -2,6 +2,7 @@
 #include<vector>
 #include<ctime>
 #include<random>
+#include<iostream>
 
 const double RAND_VAR_PROB = 0.05;
 
@@ -60,7 +61,7 @@ bool eval_formula(const form_t& formula, const assign_t& assign, std::vector<uin
     return global_sat;
 }
 
-uint8_t walksat(uint64_t seed, uint64_t max_time_s, uint64_t num_variables, uint64_t num_clauses, int64_t* formula_flatten, uint8_t* assignment) {
+uint8_t walksat(uint64_t seed, uint64_t max_time_s, uint64_t num_variables, uint64_t num_clauses, int64_t* formula_flatten, int8_t* assignment) {
     // parse formula
     form_t formula;
     uint64_t i = 0;
@@ -83,8 +84,13 @@ uint8_t walksat(uint64_t seed, uint64_t max_time_s, uint64_t num_variables, uint
     std::default_random_engine engine(seed);
 
     assign_t assign(num_variables+1);
+    assign[0] = 0;
     for (var_t v=1; v < num_variables+1; v++) {
-        assign[v] = dist_int01(engine);
+        if (dist_float01(engine) < 0.5 ) {
+            assign[v] = -1;
+        } else {
+            assign[v] = +1;
+        }
     }
 
     // walksat
@@ -95,14 +101,27 @@ uint8_t walksat(uint64_t seed, uint64_t max_time_s, uint64_t num_variables, uint
     std::vector<uint64_t> var_unsat_to_sat(num_variables+1); // var_sat_to_unsat[10] = 20 : var 10 makes 20 clauses unsat -> sat
     std::vector<int64_t> var_diff(num_variables+1);
 
+    uint64_t loop_count = 0;
     while (true) {
+        loop_count += 1;
         uint64_t time_s = std::time(nullptr);
         if (time_s > start_time_s + max_time_s) {
+            std::cout << "timeout: loop_count " << loop_count << std::endl;
             return 0;
         }
+        /*
+            std::cout << "trying [";
+            for (var_t v=1; v < num_variables+1; v++) {
+                std::cout << int64_t(assign[v]) << ", ";
+            }
+            std::cout << "]" << std::endl;
+        */
         // eval formula
         bool sat = eval_formula(formula, assign, clause_unsat_list, var_sat_to_unsat, var_unsat_to_sat);
         if (sat) {
+            for (var_t v=1; v < num_variables+1; v++) {
+                assignment[v-1] = assign[v];
+            }
             return 1;
         }
         // pick random unsat clause
@@ -125,6 +144,9 @@ uint8_t walksat(uint64_t seed, uint64_t max_time_s, uint64_t num_variables, uint
                 }
             }
             flip_var = best_var;
+            if (flip_var == 0) {
+                __builtin_trap();
+            }
         }
 
         assign[flip_var] *= -1;
