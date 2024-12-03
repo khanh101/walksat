@@ -7,6 +7,15 @@ cdef extern from "walksat.h":
 import numpy as np
 
 def c_walksat(seed: int, max_time_s: int, formula: list[list[int]]) -> tuple[int, list[int]]:
+    """
+    [seed] - seed for RNG in C
+    [max_time_s] - max time for walksat in seconds
+    [formula] - cnf formula, for example (x_1 ∧ ¬x_2) ∨ (x_2 ∧ x_3) is [[+1, -2], [+2, +3]]
+
+    return:
+    [sat] - satisfiable (1:sat, 0:unsat)
+    [assignment] - assignment if sat (+1: true, -1: false)
+    """
     # check
     for clause in formula:
         for literal in clause:
