@@ -2,15 +2,16 @@
 cimport libc.stdint as stdint
 
 cdef extern from "walksat.h":
-    stdint.uint8_t walksat(stdint.uint64_t seed, stdint.uint64_t max_time_s, stdint.uint64_t num_variables, stdint.uint64_t num_clauses, stdint.int64_t* formula_flatten, stdint.int8_t* assignment);
+    stdint.uint8_t walksat(stdint.uint64_t seed, stdint.uint64_t max_time_s, double rand_var_prob, stdint.uint64_t num_variables, stdint.uint64_t num_clauses, stdint.int64_t* formula_flatten, stdint.int8_t* assignment);
 
 import numpy as np
 
-def c_walksat(seed: int, max_time_s: int, formula: list[list[int]]) -> tuple[int, list[int]]:
+def c_walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_var_prob: float=0.05) -> tuple[int, list[int]]:
     """
+    [formula] - cnf formula, for example (x_1 ∧ ¬x_2) ∨ (x_2 ∧ x_3) is [[+1, -2], [+2, +3]]
     [seed] - seed for RNG in C
     [max_time_s] - max time for walksat in seconds
-    [formula] - cnf formula, for example (x_1 ∧ ¬x_2) ∨ (x_2 ∧ x_3) is [[+1, -2], [+2, +3]]
+    [rand_var_prob] - probability of picking random var
 
     return:
     [sat] - satisfiable (1:sat, 0:unsat)
@@ -40,12 +41,13 @@ def c_walksat(seed: int, max_time_s: int, formula: list[list[int]]) -> tuple[int
 
     cdef stdint.uint64_t seed_c = seed
     cdef stdint.uint64_t max_time_s_c = max_time_s
+    cdef double rand_var_prob_c = rand_var_prob
     cdef stdint.uint64_t num_variables_c = num_variables
     cdef stdint.uint64_t num_clauses_c = num_clauses 
     cdef stdint.int64_t[:] formula_flatten_c = formula_flatten_np
     cdef stdint.int8_t[:] assignment_c = assignment_np
 
-    satisfiable_c = walksat(seed_c, max_time_s_c, num_variables_c, num_clauses_c, &formula_flatten_c[0], &assignment_c[0])
+    satisfiable_c = walksat(seed_c, max_time_s_c, rand_var_prob_c, num_variables_c, num_clauses_c, &formula_flatten_c[0], &assignment_c[0])
 
     satisfiable = int(satisfiable_c)
 

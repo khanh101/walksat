@@ -4,8 +4,6 @@
 #include<random>
 #include<iostream>
 
-const double RAND_VAR_PROB = 0.05;
-
 using var_t = uint64_t;
 using lit_t = int64_t;
 using clause_t = std::vector<lit_t>;
@@ -61,7 +59,7 @@ bool eval_formula(const form_t& formula, const assign_t& assign, std::vector<uin
     return global_sat;
 }
 
-uint8_t walksat(uint64_t seed, uint64_t max_time_s, uint64_t num_variables, uint64_t num_clauses, int64_t* formula_flatten, int8_t* assignment) {
+uint8_t walksat(uint64_t seed, uint64_t max_time_s, double rand_var_prob, uint64_t num_variables, uint64_t num_clauses, int64_t* formula_flatten, int8_t* assignment) {
     // parse formula
     form_t formula;
     uint64_t i = 0;
@@ -127,8 +125,8 @@ uint8_t walksat(uint64_t seed, uint64_t max_time_s, uint64_t num_variables, uint
         const clause_t& clause = formula[c];
 
         var_t flip_var;
-        if (dist_float01(engine) < RAND_VAR_PROB) {
-            // with RAND_VAR_PROB pick random var
+        if (dist_float01(engine) < rand_var_prob) {
+            // with rand_var_prob pick random var
             flip_var = abs(clause[uint64_t(dist_float01(engine) * clause.size())]);
         } else {
             // pick best var
