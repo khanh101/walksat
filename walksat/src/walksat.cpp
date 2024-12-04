@@ -11,7 +11,13 @@ using form_t = std::vector<clause_t>;
 using assign_t = std::vector<int8_t>;
 
 
-bool eval_formula(const form_t& formula, const assign_t& assign, std::vector<uint64_t>& clause_unsat_list, std::vector<uint64_t>& var_sat_to_unsat, std::vector<uint64_t>& var_unsat_to_sat) {
+bool eval_formula(
+    const form_t& formula,
+    const assign_t& assign,
+    std::vector<uint64_t>& clause_unsat_list,
+    std::vector<uint64_t>& var_sat_to_unsat,
+    std::vector<uint64_t>& var_unsat_to_sat
+) {
     clause_unsat_list.clear();
     for (uint64_t v=0; v<var_sat_to_unsat.size(); v++) {
         var_sat_to_unsat[v] = 0;
@@ -59,7 +65,15 @@ bool eval_formula(const form_t& formula, const assign_t& assign, std::vector<uin
     return global_sat;
 }
 
-uint8_t walksat(uint64_t seed, uint64_t max_time_s, double rand_var_prob, uint64_t num_variables, uint64_t num_clauses, int64_t* formula_flatten, int8_t* assignment) {
+uint8_t walksat(
+    uint64_t seed,
+    uint64_t max_time_s,
+    double rand_var_prob,
+    uint64_t num_variables,
+    uint64_t num_clauses,
+    int64_t* formula_flatten,
+    int8_t* assignment
+) {
     // parse formula
     form_t formula;
     {
