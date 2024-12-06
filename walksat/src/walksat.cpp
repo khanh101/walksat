@@ -109,16 +109,17 @@ bool solve_formula(
             if (sat) {
                 return true;
             }
-            // pick random unsat clause
+            // pick random unsat clause uniformly
             uint64_t c = clause_unsat_list[uint64_t(dist_float01(engine) * clause_unsat_list.size())];
             const clause_t& clause = formula[c];
 
             var_t flip_var;
+            // local search
             if (dist_float01(engine) < rand_var_prob) {
-                // with rand_var_prob pick random var
+                // with rand_var_prob pick random var uniformly
                 flip_var = abs(clause[uint64_t(dist_float01(engine) * clause.size())]);
             } else {
-                // pick best var
+                // pick the var with the most increase in number of sat clauses 
                 int64_t best_diff = INT64_MIN;
                 var_t best_var = 0;
                 for (var_t v=1; v < num_variables+1; v++) {
