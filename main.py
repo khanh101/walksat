@@ -51,6 +51,8 @@ def parse_dimacs(formula_dimacs: str) -> Iterator[list[list[int]]]:
 formula = list(parse_dimacs(formula_dimacs=formula_dimacs))[0]
 
 satisfiable, assignment = walksat(formula=formula)
-print(satisfiable, assignment)
-satisfiable, assignment = walksat(formula=[[1, -2], [-1], [2]])
-print(satisfiable, assignment)
+print(formula, satisfiable, assignment)
+
+formula = [[1, -2], [-1], [2]]
+satisfiable, assignment = walksat(formula=formula)
+print(formula, satisfiable, assignment)
