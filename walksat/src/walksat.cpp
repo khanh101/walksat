@@ -8,8 +8,10 @@ using var_t = uint64_t;
 using lit_t = int64_t;
 using clause_t = std::vector<lit_t>;
 using form_t = std::vector<clause_t>;
-using assign_t = std::vector<int8_t>;
+using weight_t = std::vector<uint64_t>;
 
+using value_t = int8_t; // -1, +1
+using assign_t = std::vector<value_t>;
 
 bool eval_formula(
     const form_t& formula,
@@ -65,37 +67,18 @@ bool eval_formula(
     return global_sat;
 }
 
-uint8_t walksat(
-    uint64_t seed,
+bool solve_formula(
+    uint64_t seed, 
     uint64_t max_time_s,
     double rand_var_prob,
-    uint64_t num_variables,
-    uint64_t num_clauses,
-    int64_t* formula_flatten,
-    int8_t* assignment
+    const form_t& formula,
+    assign_t& assign
 ) {
-    // parse formula
-    form_t formula;
-    {
-        uint64_t i = 0;
-        for (uint64_t c=0; c < num_clauses; c++) {
-            clause_t clause;
-            while (true) {
-                lit_t literal = formula_flatten[i];
-                i++;
-                if (literal == 0) {
-                    break;
-                }
-                clause.push_back(literal);
-            }
-            formula.push_back(clause);
-        }
-    }
+    uint64_t num_variables = assign.size()-1;
 
     std::uniform_real_distribution<double> dist_float01(0, 1);
     std::default_random_engine engine(seed);
 
-    assign_t assign(num_variables+1);
     
     uint64_t start_time_s = std::time(nullptr);
     {
@@ -125,10 +108,7 @@ uint8_t walksat(
             // eval formula
             bool sat = eval_formula(formula, assign, clause_unsat_list, var_sat_to_unsat, var_unsat_to_sat);
             if (sat) {
-                for (var_t v=1; v < num_variables+1; v++) {
-                    assignment[v-1] = assign[v];
-                }
-                return 1;
+                return true;
             }
             // pick random unsat clause
             uint64_t c = clause_unsat_list[uint64_t(dist_float01(engine) * clause_unsat_list.size())];
@@ -157,5 +137,48 @@ uint8_t walksat(
 
             assign[flip_var] *= -1;
         }
+    }
+
+}
+
+uint8_t walksat(
+    uint64_t seed,
+    uint64_t max_time_s,
+    double rand_var_prob,
+    uint64_t num_variables,
+    uint64_t num_clauses,
+    int64_t* formula_flatten,
+    int8_t* assignment
+) {
+    // parse formula
+    form_t formula;
+    {
+        uint64_t i = 0;
+        for (uint64_t c=0; c < num_clauses; c++) {
+            clause_t clause;
+            while (true) {
+                lit_t literal = formula_flatten[i];
+                i++;
+                if (literal == 0) {
+                    break;
+                }
+                clause.push_back(literal);
+            }
+            formula.push_back(clause);
+        }
+    }
+
+    assign_t assign(num_variables+1);
+
+    bool sat = solve_formula(seed, max_time_s, rand_var_prob, formula, assign);
+
+    for (uint64_t v=0; v < num_variables; v++) {
+        assignment[v] = assign[v+1];
+    }
+
+    if (sat) {
+        return 1;
+    } else {
+        return 0;
     }
 }
