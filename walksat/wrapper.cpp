@@ -2974,7 +2974,7 @@ static const char __pyx_k_asyncio_coroutines[] = "asyncio.coroutines";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_formula_flatten_np[] = "formula_flatten_np";
 static const char __pyx_k_strided_and_direct[] = "<strided and direct>";
-static const char __pyx_k_tuple_int_list_int[] = "tuple[int, list[int]]";
+static const char __pyx_k_tuple_bool_list_int[] = "tuple[bool, list[int]]";
 static const char __pyx_k_walksat_wrapper_pyx[] = "walksat/wrapper.pyx";
 static const char __pyx_k_strided_and_indirect[] = "<strided and indirect>";
 static const char __pyx_k_Invalid_shape_in_axis[] = "Invalid shape in axis ";
@@ -3236,7 +3236,7 @@ typedef struct {
   PyObject *__pyx_n_s_struct;
   PyObject *__pyx_n_s_sys;
   PyObject *__pyx_n_s_test;
-  PyObject *__pyx_kp_s_tuple_int_list_int;
+  PyObject *__pyx_kp_s_tuple_bool_list_int;
   PyObject *__pyx_kp_s_unable_to_allocate_array_data;
   PyObject *__pyx_kp_s_unable_to_allocate_shape_and_str;
   PyObject *__pyx_n_s_unpack;
@@ -3465,7 +3465,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_struct);
   Py_CLEAR(clear_module_state->__pyx_n_s_sys);
   Py_CLEAR(clear_module_state->__pyx_n_s_test);
-  Py_CLEAR(clear_module_state->__pyx_kp_s_tuple_int_list_int);
+  Py_CLEAR(clear_module_state->__pyx_kp_s_tuple_bool_list_int);
   Py_CLEAR(clear_module_state->__pyx_kp_s_unable_to_allocate_array_data);
   Py_CLEAR(clear_module_state->__pyx_kp_s_unable_to_allocate_shape_and_str);
   Py_CLEAR(clear_module_state->__pyx_n_s_unpack);
@@ -3672,7 +3672,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_struct);
   Py_VISIT(traverse_module_state->__pyx_n_s_sys);
   Py_VISIT(traverse_module_state->__pyx_n_s_test);
-  Py_VISIT(traverse_module_state->__pyx_kp_s_tuple_int_list_int);
+  Py_VISIT(traverse_module_state->__pyx_kp_s_tuple_bool_list_int);
   Py_VISIT(traverse_module_state->__pyx_kp_s_unable_to_allocate_array_data);
   Py_VISIT(traverse_module_state->__pyx_kp_s_unable_to_allocate_shape_and_str);
   Py_VISIT(traverse_module_state->__pyx_n_s_unpack);
@@ -3891,7 +3891,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_struct __pyx_mstate_global->__pyx_n_s_struct
 #define __pyx_n_s_sys __pyx_mstate_global->__pyx_n_s_sys
 #define __pyx_n_s_test __pyx_mstate_global->__pyx_n_s_test
-#define __pyx_kp_s_tuple_int_list_int __pyx_mstate_global->__pyx_kp_s_tuple_int_list_int
+#define __pyx_kp_s_tuple_bool_list_int __pyx_mstate_global->__pyx_kp_s_tuple_bool_list_int
 #define __pyx_kp_s_unable_to_allocate_array_data __pyx_mstate_global->__pyx_kp_s_unable_to_allocate_array_data
 #define __pyx_kp_s_unable_to_allocate_shape_and_str __pyx_mstate_global->__pyx_kp_s_unable_to_allocate_shape_and_str
 #define __pyx_n_s_unpack __pyx_mstate_global->__pyx_n_s_unpack
@@ -17558,7 +17558,7 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
 /* "walksat/wrapper.pyx":17
  * import numpy as np
  * 
- * def walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_var_prob: float=0.05) -> tuple[int, list[int]]:             # <<<<<<<<<<<<<<
+ * def walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_var_prob: float=0.05) -> tuple[bool, list[int]]:             # <<<<<<<<<<<<<<
  *     """
  *     [formula] - cnf formula, for example (x_1  x_2)  (x_2  x_3) is [[+1, -2], [+2, +3]]
  */
@@ -18579,7 +18579,7 @@ static PyObject *__pyx_pf_7walksat_7wrapper_walksat(CYTHON_UNUSED PyObject *__py
   /* "walksat/wrapper.pyx":17
  * import numpy as np
  * 
- * def walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_var_prob: float=0.05) -> tuple[int, list[int]]:             # <<<<<<<<<<<<<<
+ * def walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_var_prob: float=0.05) -> tuple[bool, list[int]]:             # <<<<<<<<<<<<<<
  *     """
  *     [formula] - cnf formula, for example (x_1  x_2)  (x_2  x_3) is [[+1, -2], [+2, +3]]
  */
@@ -19734,7 +19734,7 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_struct, __pyx_k_struct, sizeof(__pyx_k_struct), 0, 0, 1, 1},
     {&__pyx_n_s_sys, __pyx_k_sys, sizeof(__pyx_k_sys), 0, 0, 1, 1},
     {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
-    {&__pyx_kp_s_tuple_int_list_int, __pyx_k_tuple_int_list_int, sizeof(__pyx_k_tuple_int_list_int), 0, 0, 1, 0},
+    {&__pyx_kp_s_tuple_bool_list_int, __pyx_k_tuple_bool_list_int, sizeof(__pyx_k_tuple_bool_list_int), 0, 0, 1, 0},
     {&__pyx_kp_s_unable_to_allocate_array_data, __pyx_k_unable_to_allocate_array_data, sizeof(__pyx_k_unable_to_allocate_array_data), 0, 0, 1, 0},
     {&__pyx_kp_s_unable_to_allocate_shape_and_str, __pyx_k_unable_to_allocate_shape_and_str, sizeof(__pyx_k_unable_to_allocate_shape_and_str), 0, 0, 1, 0},
     {&__pyx_n_s_unpack, __pyx_k_unpack, sizeof(__pyx_k_unpack), 0, 0, 1, 1},
@@ -19909,7 +19909,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "walksat/wrapper.pyx":17
  * import numpy as np
  * 
- * def walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_var_prob: float=0.05) -> tuple[int, list[int]]:             # <<<<<<<<<<<<<<
+ * def walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_var_prob: float=0.05) -> tuple[bool, list[int]]:             # <<<<<<<<<<<<<<
  *     """
  *     [formula] - cnf formula, for example (x_1  x_2)  (x_2  x_3) is [[+1, -2], [+2, +3]]
  */
@@ -20974,7 +20974,7 @@ if (!__Pyx_RefNanny) {
  * 
  * import numpy as np             # <<<<<<<<<<<<<<
  * 
- * def walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_var_prob: float=0.05) -> tuple[int, list[int]]:
+ * def walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_var_prob: float=0.05) -> tuple[bool, list[int]]:
  */
   __pyx_t_7 = __Pyx_ImportDottedModule(__pyx_n_s_numpy, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
@@ -20984,7 +20984,7 @@ if (!__Pyx_RefNanny) {
   /* "walksat/wrapper.pyx":17
  * import numpy as np
  * 
- * def walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_var_prob: float=0.05) -> tuple[int, list[int]]:             # <<<<<<<<<<<<<<
+ * def walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_var_prob: float=0.05) -> tuple[bool, list[int]]:             # <<<<<<<<<<<<<<
  *     """
  *     [formula] - cnf formula, for example (x_1  x_2)  (x_2  x_3) is [[+1, -2], [+2, +3]]
  */
@@ -20994,7 +20994,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_seed, __pyx_n_s_int) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_max_time_s, __pyx_n_s_int) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_rand_var_prob, __pyx_n_s_float) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_return, __pyx_kp_s_tuple_int_list_int) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_return, __pyx_kp_s_tuple_bool_list_int) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
   __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_7walksat_7wrapper_1walksat, 0, __pyx_n_s_walksat, NULL, __pyx_n_s_walksat_wrapper, __pyx_d, ((PyObject *)__pyx_codeobj__21)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (!__Pyx_CyFunction_InitDefaults(__pyx_t_4, sizeof(__pyx_defaults), 2)) __PYX_ERR(0, 17, __pyx_L1_error)
