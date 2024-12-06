@@ -18,7 +18,7 @@ def walksat(
     formula: list[list[int]],
     seed: int=1234,
     max_time_s: int=10,
-    rand_var_prob: float=0.1
+    rand_var_prob: float=0.3
 ) -> tuple[bool, list[int]]:
     """
     [formula] - cnf formula, for example (x_1 ∧ ¬x_2) ∨ (x_2 ∧ x_3) is [[+1, -2], [+2, +3]]
