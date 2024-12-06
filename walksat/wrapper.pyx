@@ -14,7 +14,7 @@ cdef extern from "walksat.h":
 
 import numpy as np
 
-def walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_var_prob: float=0.05) -> tuple[int, list[int]]:
+def walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_var_prob: float=0.05) -> tuple[bool, list[int]]:
     """
     [formula] - cnf formula, for example (x_1 ∧ ¬x_2) ∨ (x_2 ∧ x_3) is [[+1, -2], [+2, +3]]
     [seed] - seed for RNG in C
@@ -57,7 +57,7 @@ def walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_v
 
     satisfiable_c = c_walksat(seed_c, max_time_s_c, rand_var_prob_c, num_variables_c, num_clauses_c, &formula_flatten_c[0], &assignment_c[0])
 
-    satisfiable = int(satisfiable_c)
+    satisfiable = satisfiable_c > 0
 
     return satisfiable, [int(a) for a in assignment_np]
 
