@@ -1,1 +1,1 @@
-from .wrapper import c_walksat
+from .wrapper import walksat

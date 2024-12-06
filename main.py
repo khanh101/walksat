@@ -1,6 +1,6 @@
-from walksat import c_walksat
+from walksat import walksat
 
-satisfiable, assignment = c_walksat(formula=[[1, -2], [2, 3]])
+satisfiable, assignment = walksat(formula=[[1, -2], [2, 3]])
 print(satisfiable, assignment)
-satisfiable, assignment = c_walksat(formula=[[1, -2], [-1], [2]])
+satisfiable, assignment = walksat(formula=[[1, -2], [-1], [2]])
 print(satisfiable, assignment)

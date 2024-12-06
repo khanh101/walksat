@@ -2921,6 +2921,7 @@ static const char __pyx_k_formula[] = "formula";
 static const char __pyx_k_fortran[] = "fortran";
 static const char __pyx_k_literal[] = "literal";
 static const char __pyx_k_memview[] = "memview";
+static const char __pyx_k_walksat[] = "walksat";
 static const char __pyx_k_Ellipsis[] = "Ellipsis";
 static const char __pyx_k_Sequence[] = "Sequence";
 static const char __pyx_k_getstate[] = "__getstate__";
@@ -2929,7 +2930,6 @@ static const char __pyx_k_pyx_type[] = "__pyx_type";
 static const char __pyx_k_register[] = "register";
 static const char __pyx_k_setstate[] = "__setstate__";
 static const char __pyx_k_TypeError[] = "TypeError";
-static const char __pyx_k_c_walksat[] = "c_walksat";
 static const char __pyx_k_enumerate[] = "enumerate";
 static const char __pyx_k_isenabled[] = "isenabled";
 static const char __pyx_k_pyx_state[] = "__pyx_state";
@@ -3050,7 +3050,7 @@ static PyObject *__pyx_pf___pyx_memoryviewslice___reduce_cython__(CYTHON_UNUSED 
 static PyObject *__pyx_pf___pyx_memoryviewslice_2__setstate_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_15View_dot_MemoryView___pyx_unpickle_Enum(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_7walksat_7wrapper_2__defaults__(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
-static PyObject *__pyx_pf_7walksat_7wrapper_c_walksat(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_formula, PyObject *__pyx_v_seed, PyObject *__pyx_v_max_time_s, double __pyx_v_rand_var_prob); /* proto */
+static PyObject *__pyx_pf_7walksat_7wrapper_walksat(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_formula, PyObject *__pyx_v_seed, PyObject *__pyx_v_max_time_s, double __pyx_v_rand_var_prob); /* proto */
 static PyObject *__pyx_tp_new_array(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_Enum(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_memoryview(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -3142,7 +3142,6 @@ typedef struct {
   PyObject *__pyx_n_s_base;
   PyObject *__pyx_n_s_c;
   PyObject *__pyx_n_u_c;
-  PyObject *__pyx_n_s_c_walksat;
   PyObject *__pyx_n_s_class;
   PyObject *__pyx_n_s_class_getitem;
   PyObject *__pyx_n_s_clause;
@@ -3246,6 +3245,7 @@ typedef struct {
   PyObject *__pyx_n_s_unpack;
   PyObject *__pyx_n_s_update;
   PyObject *__pyx_n_s_version_info;
+  PyObject *__pyx_n_s_walksat;
   PyObject *__pyx_n_s_walksat_wrapper;
   PyObject *__pyx_kp_s_walksat_wrapper_pyx;
   PyObject *__pyx_int_0;
@@ -3371,7 +3371,6 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_base);
   Py_CLEAR(clear_module_state->__pyx_n_s_c);
   Py_CLEAR(clear_module_state->__pyx_n_u_c);
-  Py_CLEAR(clear_module_state->__pyx_n_s_c_walksat);
   Py_CLEAR(clear_module_state->__pyx_n_s_class);
   Py_CLEAR(clear_module_state->__pyx_n_s_class_getitem);
   Py_CLEAR(clear_module_state->__pyx_n_s_clause);
@@ -3475,6 +3474,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_unpack);
   Py_CLEAR(clear_module_state->__pyx_n_s_update);
   Py_CLEAR(clear_module_state->__pyx_n_s_version_info);
+  Py_CLEAR(clear_module_state->__pyx_n_s_walksat);
   Py_CLEAR(clear_module_state->__pyx_n_s_walksat_wrapper);
   Py_CLEAR(clear_module_state->__pyx_kp_s_walksat_wrapper_pyx);
   Py_CLEAR(clear_module_state->__pyx_int_0);
@@ -3578,7 +3578,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_base);
   Py_VISIT(traverse_module_state->__pyx_n_s_c);
   Py_VISIT(traverse_module_state->__pyx_n_u_c);
-  Py_VISIT(traverse_module_state->__pyx_n_s_c_walksat);
   Py_VISIT(traverse_module_state->__pyx_n_s_class);
   Py_VISIT(traverse_module_state->__pyx_n_s_class_getitem);
   Py_VISIT(traverse_module_state->__pyx_n_s_clause);
@@ -3682,6 +3681,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_unpack);
   Py_VISIT(traverse_module_state->__pyx_n_s_update);
   Py_VISIT(traverse_module_state->__pyx_n_s_version_info);
+  Py_VISIT(traverse_module_state->__pyx_n_s_walksat);
   Py_VISIT(traverse_module_state->__pyx_n_s_walksat_wrapper);
   Py_VISIT(traverse_module_state->__pyx_kp_s_walksat_wrapper_pyx);
   Py_VISIT(traverse_module_state->__pyx_int_0);
@@ -3797,7 +3797,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_base __pyx_mstate_global->__pyx_n_s_base
 #define __pyx_n_s_c __pyx_mstate_global->__pyx_n_s_c
 #define __pyx_n_u_c __pyx_mstate_global->__pyx_n_u_c
-#define __pyx_n_s_c_walksat __pyx_mstate_global->__pyx_n_s_c_walksat
 #define __pyx_n_s_class __pyx_mstate_global->__pyx_n_s_class
 #define __pyx_n_s_class_getitem __pyx_mstate_global->__pyx_n_s_class_getitem
 #define __pyx_n_s_clause __pyx_mstate_global->__pyx_n_s_clause
@@ -3901,6 +3900,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_unpack __pyx_mstate_global->__pyx_n_s_unpack
 #define __pyx_n_s_update __pyx_mstate_global->__pyx_n_s_update
 #define __pyx_n_s_version_info __pyx_mstate_global->__pyx_n_s_version_info
+#define __pyx_n_s_walksat __pyx_mstate_global->__pyx_n_s_walksat
 #define __pyx_n_s_walksat_wrapper __pyx_mstate_global->__pyx_n_s_walksat_wrapper
 #define __pyx_kp_s_walksat_wrapper_pyx __pyx_mstate_global->__pyx_kp_s_walksat_wrapper_pyx
 #define __pyx_int_0 __pyx_mstate_global->__pyx_int_0
@@ -17561,7 +17561,7 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
 /* "walksat/wrapper.pyx":9
  * import numpy as np
  * 
- * def c_walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_var_prob: float=0.05) -> tuple[int, list[int]]:             # <<<<<<<<<<<<<<
+ * def walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_var_prob: float=0.05) -> tuple[int, list[int]]:             # <<<<<<<<<<<<<<
  *     """
  *     [formula] - cnf formula, for example (x_1  x_2)  (x_2  x_3) is [[+1, -2], [+2, +3]]
  */
@@ -17614,16 +17614,16 @@ static PyObject *__pyx_pf_7walksat_7wrapper_2__defaults__(CYTHON_UNUSED PyObject
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_7walksat_7wrapper_1c_walksat(PyObject *__pyx_self, 
+static PyObject *__pyx_pw_7walksat_7wrapper_1walksat(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_7walksat_7wrapper_c_walksat, "\n    [formula] - cnf formula, for example (x_1 \342\210\247 \302\254x_2) \342\210\250 (x_2 \342\210\247 x_3) is [[+1, -2], [+2, +3]]\n    [seed] - seed for RNG in C\n    [max_time_s] - max time for walksat in seconds\n    [rand_var_prob] - probability of picking random var\n\n    return:\n    [sat] - satisfiable (1:sat, 0:unsat)\n    [assignment] - assignment if sat (+1: true, -1: false)\n    ");
-static PyMethodDef __pyx_mdef_7walksat_7wrapper_1c_walksat = {"c_walksat", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7walksat_7wrapper_1c_walksat, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7walksat_7wrapper_c_walksat};
-static PyObject *__pyx_pw_7walksat_7wrapper_1c_walksat(PyObject *__pyx_self, 
+PyDoc_STRVAR(__pyx_doc_7walksat_7wrapper_walksat, "\n    [formula] - cnf formula, for example (x_1 \342\210\247 \302\254x_2) \342\210\250 (x_2 \342\210\247 x_3) is [[+1, -2], [+2, +3]]\n    [seed] - seed for RNG in C\n    [max_time_s] - max time for walksat in seconds\n    [rand_var_prob] - probability of picking random var\n\n    return:\n    [sat] - satisfiable (1:sat, 0:unsat)\n    [assignment] - assignment if sat (+1: true, -1: false)\n    ");
+static PyMethodDef __pyx_mdef_7walksat_7wrapper_1walksat = {"walksat", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_7walksat_7wrapper_1walksat, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_7walksat_7wrapper_walksat};
+static PyObject *__pyx_pw_7walksat_7wrapper_1walksat(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -17644,7 +17644,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("c_walksat (wrapper)", 0);
+  __Pyx_RefNannySetupContext("walksat (wrapper)", 0);
   #if !CYTHON_METH_FASTCALL
   #if CYTHON_ASSUME_SAFE_MACROS
   __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
@@ -17705,7 +17705,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "c_walksat") < 0)) __PYX_ERR(0, 9, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "walksat") < 0)) __PYX_ERR(0, 9, __pyx_L3_error)
       }
     } else {
       switch (__pyx_nargs) {
@@ -17731,7 +17731,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("c_walksat", 0, 1, 4, __pyx_nargs); __PYX_ERR(0, 9, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("walksat", 0, 1, 4, __pyx_nargs); __PYX_ERR(0, 9, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -17741,14 +17741,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
       __Pyx_Arg_XDECREF_FASTCALL(values[__pyx_temp]);
     }
   }
-  __Pyx_AddTraceback("walksat.wrapper.c_walksat", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("walksat.wrapper.walksat", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_formula), (&PyList_Type), 0, "formula", 1))) __PYX_ERR(0, 9, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_seed), (&PyInt_Type), 0, "seed", 1))) __PYX_ERR(0, 9, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_max_time_s), (&PyInt_Type), 0, "max_time_s", 1))) __PYX_ERR(0, 9, __pyx_L1_error)
-  __pyx_r = __pyx_pf_7walksat_7wrapper_c_walksat(__pyx_self, __pyx_v_formula, __pyx_v_seed, __pyx_v_max_time_s, __pyx_v_rand_var_prob);
+  __pyx_r = __pyx_pf_7walksat_7wrapper_walksat(__pyx_self, __pyx_v_formula, __pyx_v_seed, __pyx_v_max_time_s, __pyx_v_rand_var_prob);
 
   /* function exit code */
   goto __pyx_L0;
@@ -17765,7 +17765,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_7walksat_7wrapper_c_walksat(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_formula, PyObject *__pyx_v_seed, PyObject *__pyx_v_max_time_s, double __pyx_v_rand_var_prob) {
+static PyObject *__pyx_pf_7walksat_7wrapper_walksat(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_formula, PyObject *__pyx_v_seed, PyObject *__pyx_v_max_time_s, double __pyx_v_rand_var_prob) {
   PyObject *__pyx_v_clause = NULL;
   PyObject *__pyx_v_literal = NULL;
   Py_ssize_t __pyx_v_num_clauses;
@@ -17807,7 +17807,7 @@ static PyObject *__pyx_pf_7walksat_7wrapper_c_walksat(CYTHON_UNUSED PyObject *__
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("c_walksat", 1);
+  __Pyx_RefNannySetupContext("walksat", 1);
 
   /* "walksat/wrapper.pyx":21
  *     """
@@ -18442,7 +18442,7 @@ static PyObject *__pyx_pf_7walksat_7wrapper_c_walksat(CYTHON_UNUSED PyObject *__
  *     cdef stdint.int64_t[:] formula_flatten_c = formula_flatten_np
  *     cdef stdint.int8_t[:] assignment_c = assignment_np             # <<<<<<<<<<<<<<
  * 
- *     satisfiable_c = walksat(seed_c, max_time_s_c, rand_var_prob_c, num_variables_c, num_clauses_c, &formula_flatten_c[0], &assignment_c[0])
+ *     satisfiable_c = c_walksat(seed_c, max_time_s_c, rand_var_prob_c, num_variables_c, num_clauses_c, &formula_flatten_c[0], &assignment_c[0])
  */
   __pyx_t_16 = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_int8_t(__pyx_v_assignment_np, PyBUF_WRITABLE); if (unlikely(!__pyx_t_16.memview)) __PYX_ERR(0, 48, __pyx_L1_error)
   __pyx_v_assignment_c = __pyx_t_16;
@@ -18452,7 +18452,7 @@ static PyObject *__pyx_pf_7walksat_7wrapper_c_walksat(CYTHON_UNUSED PyObject *__
   /* "walksat/wrapper.pyx":50
  *     cdef stdint.int8_t[:] assignment_c = assignment_np
  * 
- *     satisfiable_c = walksat(seed_c, max_time_s_c, rand_var_prob_c, num_variables_c, num_clauses_c, &formula_flatten_c[0], &assignment_c[0])             # <<<<<<<<<<<<<<
+ *     satisfiable_c = c_walksat(seed_c, max_time_s_c, rand_var_prob_c, num_variables_c, num_clauses_c, &formula_flatten_c[0], &assignment_c[0])             # <<<<<<<<<<<<<<
  * 
  *     satisfiable = int(satisfiable_c)
  */
@@ -18476,10 +18476,10 @@ static PyObject *__pyx_pf_7walksat_7wrapper_c_walksat(CYTHON_UNUSED PyObject *__
     __Pyx_RaiseBufferIndexError(__pyx_t_18);
     __PYX_ERR(0, 50, __pyx_L1_error)
   }
-  __pyx_v_satisfiable_c = walksat(__pyx_v_seed_c, __pyx_v_max_time_s_c, __pyx_v_rand_var_prob_c, __pyx_v_num_variables_c, __pyx_v_num_clauses_c, (&(*((int64_t *) ( /* dim=0 */ (__pyx_v_formula_flatten_c.data + __pyx_t_17 * __pyx_v_formula_flatten_c.strides[0]) )))), (&(*((int8_t *) ( /* dim=0 */ (__pyx_v_assignment_c.data + __pyx_t_19 * __pyx_v_assignment_c.strides[0]) )))));
+  __pyx_v_satisfiable_c = c_walksat(__pyx_v_seed_c, __pyx_v_max_time_s_c, __pyx_v_rand_var_prob_c, __pyx_v_num_variables_c, __pyx_v_num_clauses_c, (&(*((int64_t *) ( /* dim=0 */ (__pyx_v_formula_flatten_c.data + __pyx_t_17 * __pyx_v_formula_flatten_c.strides[0]) )))), (&(*((int8_t *) ( /* dim=0 */ (__pyx_v_assignment_c.data + __pyx_t_19 * __pyx_v_assignment_c.strides[0]) )))));
 
   /* "walksat/wrapper.pyx":52
- *     satisfiable_c = walksat(seed_c, max_time_s_c, rand_var_prob_c, num_variables_c, num_clauses_c, &formula_flatten_c[0], &assignment_c[0])
+ *     satisfiable_c = c_walksat(seed_c, max_time_s_c, rand_var_prob_c, num_variables_c, num_clauses_c, &formula_flatten_c[0], &assignment_c[0])
  * 
  *     satisfiable = int(satisfiable_c)             # <<<<<<<<<<<<<<
  * 
@@ -18585,7 +18585,7 @@ static PyObject *__pyx_pf_7walksat_7wrapper_c_walksat(CYTHON_UNUSED PyObject *__
   /* "walksat/wrapper.pyx":9
  * import numpy as np
  * 
- * def c_walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_var_prob: float=0.05) -> tuple[int, list[int]]:             # <<<<<<<<<<<<<<
+ * def walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_var_prob: float=0.05) -> tuple[int, list[int]]:             # <<<<<<<<<<<<<<
  *     """
  *     [formula] - cnf formula, for example (x_1  x_2)  (x_2  x_3) is [[+1, -2], [+2, +3]]
  */
@@ -18601,7 +18601,7 @@ static PyObject *__pyx_pf_7walksat_7wrapper_c_walksat(CYTHON_UNUSED PyObject *__
   __Pyx_XDECREF(__pyx_t_12);
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_15, 1);
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_16, 1);
-  __Pyx_AddTraceback("walksat.wrapper.c_walksat", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("walksat.wrapper.walksat", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_clause);
@@ -19643,7 +19643,6 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_base, __pyx_k_base, sizeof(__pyx_k_base), 0, 0, 1, 1},
     {&__pyx_n_s_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 0, 1, 1},
     {&__pyx_n_u_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 1, 0, 1},
-    {&__pyx_n_s_c_walksat, __pyx_k_c_walksat, sizeof(__pyx_k_c_walksat), 0, 0, 1, 1},
     {&__pyx_n_s_class, __pyx_k_class, sizeof(__pyx_k_class), 0, 0, 1, 1},
     {&__pyx_n_s_class_getitem, __pyx_k_class_getitem, sizeof(__pyx_k_class_getitem), 0, 0, 1, 1},
     {&__pyx_n_s_clause, __pyx_k_clause, sizeof(__pyx_k_clause), 0, 0, 1, 1},
@@ -19747,6 +19746,7 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_unpack, __pyx_k_unpack, sizeof(__pyx_k_unpack), 0, 0, 1, 1},
     {&__pyx_n_s_update, __pyx_k_update, sizeof(__pyx_k_update), 0, 0, 1, 1},
     {&__pyx_n_s_version_info, __pyx_k_version_info, sizeof(__pyx_k_version_info), 0, 0, 1, 1},
+    {&__pyx_n_s_walksat, __pyx_k_walksat, sizeof(__pyx_k_walksat), 0, 0, 1, 1},
     {&__pyx_n_s_walksat_wrapper, __pyx_k_walksat_wrapper, sizeof(__pyx_k_walksat_wrapper), 0, 0, 1, 1},
     {&__pyx_kp_s_walksat_wrapper_pyx, __pyx_k_walksat_wrapper_pyx, sizeof(__pyx_k_walksat_wrapper_pyx), 0, 0, 1, 0},
     {0, 0, 0, 0, 0, 0, 0}
@@ -19915,14 +19915,14 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "walksat/wrapper.pyx":9
  * import numpy as np
  * 
- * def c_walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_var_prob: float=0.05) -> tuple[int, list[int]]:             # <<<<<<<<<<<<<<
+ * def walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_var_prob: float=0.05) -> tuple[int, list[int]]:             # <<<<<<<<<<<<<<
  *     """
  *     [formula] - cnf formula, for example (x_1  x_2)  (x_2  x_3) is [[+1, -2], [+2, +3]]
  */
   __pyx_tuple__20 = PyTuple_Pack(21, __pyx_n_s_formula, __pyx_n_s_seed, __pyx_n_s_max_time_s, __pyx_n_s_rand_var_prob, __pyx_n_s_clause, __pyx_n_s_literal, __pyx_n_s_num_clauses, __pyx_n_s_num_variables, __pyx_n_s_formula_flatten, __pyx_n_s_formula_flatten_np, __pyx_n_s_assignment_np, __pyx_n_s_seed_c, __pyx_n_s_max_time_s_c, __pyx_n_s_rand_var_prob_c, __pyx_n_s_num_variables_c, __pyx_n_s_num_clauses_c, __pyx_n_s_formula_flatten_c, __pyx_n_s_assignment_c, __pyx_n_s_satisfiable_c, __pyx_n_s_satisfiable, __pyx_n_s_a); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__20);
   __Pyx_GIVEREF(__pyx_tuple__20);
-  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(4, 0, 0, 21, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_walksat_wrapper_pyx, __pyx_n_s_c_walksat, 9, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(4, 0, 0, 21, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_walksat_wrapper_pyx, __pyx_n_s_walksat, 9, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -20976,11 +20976,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
   /* "walksat/wrapper.pyx":7
- *     stdint.uint8_t walksat(stdint.uint64_t seed, stdint.uint64_t max_time_s, double rand_var_prob, stdint.uint64_t num_variables, stdint.uint64_t num_clauses, stdint.int64_t* formula_flatten, stdint.int8_t* assignment);
+ *     stdint.uint8_t c_walksat(stdint.uint64_t seed, stdint.uint64_t max_time_s, double rand_var_prob, stdint.uint64_t num_variables, stdint.uint64_t num_clauses, stdint.int64_t* formula_flatten, stdint.int8_t* assignment);
  * 
  * import numpy as np             # <<<<<<<<<<<<<<
  * 
- * def c_walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_var_prob: float=0.05) -> tuple[int, list[int]]:
+ * def walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_var_prob: float=0.05) -> tuple[int, list[int]]:
  */
   __pyx_t_7 = __Pyx_ImportDottedModule(__pyx_n_s_numpy, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
@@ -20990,7 +20990,7 @@ if (!__Pyx_RefNanny) {
   /* "walksat/wrapper.pyx":9
  * import numpy as np
  * 
- * def c_walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_var_prob: float=0.05) -> tuple[int, list[int]]:             # <<<<<<<<<<<<<<
+ * def walksat(formula: list[list[int]], seed: int=1234, max_time_s: int=10, rand_var_prob: float=0.05) -> tuple[int, list[int]]:             # <<<<<<<<<<<<<<
  *     """
  *     [formula] - cnf formula, for example (x_1  x_2)  (x_2  x_3) is [[+1, -2], [+2, +3]]
  */
@@ -21001,7 +21001,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_max_time_s, __pyx_n_s_int) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_rand_var_prob, __pyx_n_s_float) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_return, __pyx_kp_s_tuple_int_list_int) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_7walksat_7wrapper_1c_walksat, 0, __pyx_n_s_c_walksat, NULL, __pyx_n_s_walksat_wrapper, __pyx_d, ((PyObject *)__pyx_codeobj__21)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_7walksat_7wrapper_1walksat, 0, __pyx_n_s_walksat, NULL, __pyx_n_s_walksat_wrapper, __pyx_d, ((PyObject *)__pyx_codeobj__21)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (!__Pyx_CyFunction_InitDefaults(__pyx_t_4, sizeof(__pyx_defaults), 2)) __PYX_ERR(0, 9, __pyx_L1_error)
   if (!(likely(__Pyx_Py3Int_CheckExact(__pyx_int_1234)) || __Pyx_RaiseUnexpectedTypeError("int", __pyx_int_1234))) __PYX_ERR(0, 9, __pyx_L1_error)
@@ -21015,7 +21015,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_CyFunction_SetDefaultsGetter(__pyx_t_4, __pyx_pf_7walksat_7wrapper_2__defaults__);
   __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_4, __pyx_t_7);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_c_walksat, __pyx_t_4) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_walksat, __pyx_t_4) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "walksat/wrapper.pyx":1

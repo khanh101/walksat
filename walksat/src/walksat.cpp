@@ -141,7 +141,7 @@ bool solve_formula(
 
 }
 
-uint8_t walksat(
+uint8_t c_walksat(
     uint64_t seed,
     uint64_t max_time_s,
     double rand_var_prob,
