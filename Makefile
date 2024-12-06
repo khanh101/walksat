@@ -4,7 +4,7 @@ MODULE = walksat
 .PHONY: run build clean
 
 run: build
-	time mpiexec -n 12 python main.py
+	time mpiexec --use-hwthread-cpus python main.py
 
 build: clean
 	python -m pip install -e .
