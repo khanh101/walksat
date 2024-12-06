@@ -49,7 +49,6 @@ def parse_dimacs(formula_dimacs: str) -> Iterator[list[list[int]]]:
         yield problem
 
 formula = list(parse_dimacs(formula_dimacs=formula_dimacs))[0]
-
 satisfiable, assignment = walksat(formula=formula)
 print(formula, satisfiable, assignment)
 
