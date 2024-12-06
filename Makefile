@@ -4,7 +4,7 @@ MODULE = walksat
 .PHONY: run build clean
 
 run: build
-	time python main.py
+	time mpiexec -n 8 python main.py
 
 build: clean
 	python -m pip install -e .
