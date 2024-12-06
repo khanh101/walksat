@@ -67,18 +67,19 @@ bool eval_formula(
     return global_sat;
 }
 
+// solve_formula : use walksat to solve weighted-MaxSAT problem
 bool solve_formula(
     uint64_t seed, 
     uint64_t max_time_s,
     double rand_var_prob,
     const form_t& formula,
+    const weight_t& weight,
     assign_t& assign
 ) {
     uint64_t num_variables = assign.size()-1;
 
     std::uniform_real_distribution<double> dist_float01(0, 1);
     std::default_random_engine engine(seed);
-
     
     uint64_t start_time_s = std::time(nullptr);
     {
@@ -94,6 +95,7 @@ bool solve_formula(
 
         // walksat
         std::vector<uint64_t> clause_unsat_list; // clause_unsat_list: list of unsat clauses
+        std::vector<uint64_t> clause_unsat_weight_list;
         std::vector<uint64_t> var_sat_to_unsat(num_variables+1); // var_sat_to_unsat[10] = 20 : var 10 makes 20 clauses sat -> unsat
         std::vector<uint64_t> var_unsat_to_sat(num_variables+1); // var_sat_to_unsat[10] = 20 : var 10 makes 20 clauses unsat -> sat
 
@@ -111,7 +113,13 @@ bool solve_formula(
                 return true;
             }
             // pick random unsat clause
-            uint64_t c = clause_unsat_list[uint64_t(dist_float01(engine) * clause_unsat_list.size())];
+            clause_unsat_weight_list.clear();
+            for (uint64_t i=0; i<clause_unsat_list.size(); i++) {
+                clause_unsat_weight_list.push_back(weight[clause_unsat_list[i]]);
+            }
+            uint64_t i = std::discrete_distribution<uint64_t>(clause_unsat_weight_list.begin(), clause_unsat_weight_list.end())(engine);
+            uint64_t c = clause_unsat_list[i];
+            // uint64_t c = clause_unsat_list[uint64_t(dist_float01(engine) * clause_unsat_list.size())];
             const clause_t& clause = formula[c];
 
             var_t flip_var;
@@ -147,6 +155,7 @@ uint8_t c_walksat(
     double rand_var_prob,
     uint64_t num_variables,
     uint64_t num_clauses,
+    uint64_t* clause_weight,
     int64_t* formula_flatten,
     int8_t* assignment
 ) {
@@ -170,7 +179,13 @@ uint8_t c_walksat(
 
     assign_t assign(num_variables+1);
 
-    bool sat = solve_formula(seed, max_time_s, rand_var_prob, formula, assign);
+    weight_t weight(num_clauses);
+    
+    for (uint64_t c=0; c < num_clauses; c++) {
+        weight[c] = clause_weight[c];
+    }
+
+    bool sat = solve_formula(seed, max_time_s, rand_var_prob, formula, weight, assign);
 
     for (uint64_t v=0; v < num_variables; v++) {
         assignment[v] = assign[v+1];
