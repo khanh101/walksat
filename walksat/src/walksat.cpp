@@ -156,7 +156,7 @@ double solve_formula(
             // uint64_t c = clause_unsat_list[uint64_t(dist_float01(engine) * clause_unsat_list.size())];
             // const clause_t& clause = formula[c];
             // pick random unsat clause according to weight
-            clause_unsat_dist.clear()
+            clause_unsat_dist.clear();
             for (uint64_t j=0; j<clause_unsat_list.size(); j++) {
                 dist.push_back(weight[clause_unsat_list[j]]);
             }
