@@ -27,7 +27,7 @@ if __name__ == "__main__":
                     os.path.join(MODULE, "inc"),
                 ],
                 extra_compile_args=[
-                    "-O3",
+                    "-std=c++11", "-stdlib=libc++", "-g", "-O0",
                 ],
             )
         ],
