@@ -97,7 +97,7 @@ uint64_t weighted_random(const std::vector<double>& dist, double v) {
 }
 
 
-// solve_formula : use walksat to solve SAT problem
+// solve_formula : use walksat to solve weighted-MaxSAT problem
 double solve_formula(
     uint64_t seed, 
     uint64_t max_time_s,
