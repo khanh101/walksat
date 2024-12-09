@@ -133,7 +133,22 @@ uint64_t solve_formula(
             }
             
             // pick random unsat clause uniformly
-            uint64_t c = clause_unsat_list[uint64_t(dist_float01(engine) * clause_unsat_list.size())];
+            // uint64_t c = clause_unsat_list[uint64_t(dist_float01(engine) * clause_unsat_list.size())];
+            // const clause_t& clause = formula[c];
+            // pick random unsat clause according to weight
+            double sum_weight = 0; 
+            for (uint64_t c=0; c < clause_unsat_list.size(); c++) {
+                sum_weight += weight[c];
+            }
+            double r = dist_float01(engine) * sum_weight;
+            uint64_t c = 0;
+            while (true) {
+                double w = weight[clause_unsat_list[c]];
+                if (r < w) {
+                    break;
+                }
+                r -= w;
+            }
             const clause_t& clause = formula[c];
 
             var_t flip_var;
@@ -171,6 +186,7 @@ uint64_t c_walksat(
     uint64_t num_variables,
     uint64_t num_clauses,
     int64_t* formula_flatten,
+    double* clause_weight,
     int8_t* assignment
 ) {
     // parse formula
@@ -194,7 +210,7 @@ uint64_t c_walksat(
     weight_t weight(num_clauses);
 
     for (uint64_t c=0; c < num_clauses; c++) {
-        weight[c] = 1.0;
+        weight[c] = clause_weight[c];
     }
 
     assign_t assign(num_variables+1);

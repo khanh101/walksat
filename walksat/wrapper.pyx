@@ -9,6 +9,7 @@ cdef extern from "walksat.h":
         stdint.uint64_t num_variables,
         stdint.uint64_t num_clauses,
         stdint.int64_t* formula_flatten,
+        double* clause_weight,
         stdint.int8_t* assignment
     );
 
@@ -16,9 +17,10 @@ import numpy as np
 
 def walksat(
     formula: list[list[int]],
-    seed: int=1234,
-    max_time_s: int=10,
-    rand_var_prob: float=0.3
+    weight: list[float] | None = None,
+    seed: int = 1234,
+    max_time_s: int = 10,
+    rand_var_prob: float = 0.3
 ) -> tuple[bool, list[int]]:
     """
     [formula] - cnf formula, for example (x_1 ∧ ¬x_2) ∨ (x_2 ∧ x_3) is [[+1, -2], [+2, +3]]
@@ -49,7 +51,12 @@ def walksat(
         for literal in clause:
             formula_flatten.append(literal)
         formula_flatten.append(0)
+
+    if weight is None:
+        weight = [1.0 for _ in range(len(formula))]
+
     formula_flatten_np = np.ascontiguousarray(np.array(formula_flatten, dtype=np.int64))
+    weight_np = np.ascontiguousarray(np.array(weight, dtype=np.double))
     assignment_np = np.ascontiguousarray(np.empty(shape=(num_variables + 1,), dtype=np.int8))
 
     cdef stdint.uint64_t seed_c = seed
@@ -58,9 +65,10 @@ def walksat(
     cdef stdint.uint64_t num_variables_c = num_variables
     cdef stdint.uint64_t num_clauses_c = num_clauses 
     cdef stdint.int64_t[:] formula_flatten_c = formula_flatten_np
+    cdef double[:] weight_c = weight_np
     cdef stdint.int8_t[:] assignment_c = assignment_np
 
-    satisfiable_c = c_walksat(seed_c, max_time_s_c, rand_var_prob_c, num_variables_c, num_clauses_c, &formula_flatten_c[0], &assignment_c[0])
+    satisfiable_c = c_walksat(seed_c, max_time_s_c, rand_var_prob_c, num_variables_c, num_clauses_c, &formula_flatten_c[0], &weight_c[0], &assignment_c[0])
 
     satisfiable = int(satisfiable_c)
 
