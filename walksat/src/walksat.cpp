@@ -66,8 +66,15 @@ uint64_t eval_formula(
     return num_unsat_clauses;
 }
 
+template<typename T> void copy_vector(std::vector<T>& target, const std::vector<T>& source) {
+    target.clear();
+    for (uint64_t i=0; i< source.size(); i++) {
+        target.push_back(source[i]);
+    }
+}
+
 // solve_formula : use walksat to solve SAT problem
-bool solve_formula(
+uint64_t solve_formula(
     uint64_t seed, 
     uint64_t max_time_s,
     double rand_var_prob,
@@ -96,19 +103,29 @@ bool solve_formula(
         std::vector<uint64_t> var_sat_to_unsat(num_variables+1); // var_sat_to_unsat[10] = 20 : var 10 makes 20 clauses sat -> unsat
         std::vector<uint64_t> var_unsat_to_sat(num_variables+1); // var_sat_to_unsat[10] = 20 : var 10 makes 20 clauses unsat -> sat
 
+        uint64_t best_num_unsat_clauses = UINT64_MAX;
+        assign_t best_assign(num_variables+1);
+
         uint64_t loop_count = 0;
         while (true) {
             loop_count += 1;
             uint64_t time_s = std::time(nullptr);
             if (time_s > start_time_s + max_time_s) {
                 std::cout << "timeout: loop_count " << loop_count << std::endl;
-                return false;
+                copy_vector<value_t>(assign, best_assign);
+                return best_num_unsat_clauses;
             }
             // eval formula
             bool num_unsat_clauses = eval_formula(formula, assign, clause_unsat_list, var_sat_to_unsat, var_unsat_to_sat);
             if (num_unsat_clauses == 0) {
-                return true;
+                return 0;
             }
+
+            if (num_unsat_clauses < best_num_unsat_clauses) {
+                best_num_unsat_clauses = num_unsat_clauses;
+                copy_vector<value_t>(best_assign, assign);
+            }
+            
             // pick random unsat clause uniformly
             uint64_t c = clause_unsat_list[uint64_t(dist_float01(engine) * clause_unsat_list.size())];
             const clause_t& clause = formula[c];
@@ -141,7 +158,7 @@ bool solve_formula(
 
 }
 
-uint8_t c_walksat(
+uint64_t c_walksat(
     uint64_t seed,
     uint64_t max_time_s,
     double rand_var_prob,
@@ -170,11 +187,11 @@ uint8_t c_walksat(
 
     assign_t assign(num_variables+1);
 
-    bool sat = solve_formula(seed, max_time_s, rand_var_prob, formula, assign);
+    uint64_t best_num_unsat_clauses = solve_formula(seed, max_time_s, rand_var_prob, formula, assign);
 
     for (uint64_t v=0; v < num_variables+1; v++) {
         assignment[v] = assign[v];
     }
 
-    return uint8_t(sat);
+    return best_num_unsat_clauses;
 }

@@ -142,9 +142,8 @@ class MyTask(Task):
             yield self.formula
     
     def consume(self, result):
-        sat, assign = result
-        if sat:
-            print(sat, assign)
+        best_num_unsat_clauses, assign = result
+        print(best_num_unsat_clauses, assign)
 
     def setup_worker(self, comm = None):
         self.seed = comm.get_rank() + 1000
@@ -153,9 +152,9 @@ class MyTask(Task):
     def apply(self, item):
         formula = item
         print(f"running walksat with seed {self.seed}")
-        satisfiable, assignment = walksat(formula=formula, seed=self.seed, max_time_s=30, rand_var_prob=0.3)
+        best_num_unsat_clauses, assignment = walksat(formula=formula, seed=self.seed, max_time_s=30, rand_var_prob=0.3)
         self.seed += self.step
-        return satisfiable, assignment
+        return best_num_unsat_clauses, assignment
 
 if __name__ == "__main__":
     from mpi4py import MPI
