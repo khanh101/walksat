@@ -102,6 +102,8 @@ p cnf 20  91
 -12 13 -18 0
 8 -4 16 0
 -9 6 19 0
+c adding one clause
+1 0
 """
 
 def parse_dimacs(formula_dimacs: str) -> Iterator[list[list[int]]]:
