@@ -154,7 +154,7 @@ class MyTask(Task):
     def apply(self, item):
         formula = item
         print(f"running walksat with seed {self.seed}")
-        best_num_unsat_clauses, assignment = walksat(formula=formula, seed=self.seed, max_time_s=30, rand_var_prob=0.3)
+        best_num_unsat_clauses, assignment = walksat(formula=formula, seed=self.seed, max_time_s=5, rand_var_prob=0.3)
         self.seed += self.step
         return best_num_unsat_clauses, assignment
 
