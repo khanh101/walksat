@@ -160,7 +160,7 @@ double solve_formula(
             for (uint64_t i=0; i<clause_unsat_list.size(); i++) {
                 dist.push_back(weight[clause_unsat_list[i]]);
             }
-            uint64_t i = weighted_random(dist, dist_float01(engine));
+            uint64_t i = weighted_random(clause_unsat_dist, dist_float01(engine));
             uint64_t c = clause_unsat_list[i];
             const clause_t& clause = formula[c];
 
