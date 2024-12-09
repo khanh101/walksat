@@ -42,6 +42,7 @@ class MyTask(Task):
         self.size = comm.get_size()
         self.formula = list(parse_dimacs(formula_dimacs=formula_dimacs))[0]
         self.weight = [1.0 for _ in range(len(self.formula))]
+        self.weight[2] = 0
     
     def produce(self):
         for i in range(1 * (self.size - 1)): # 1 job for each worker

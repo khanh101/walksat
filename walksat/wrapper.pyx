@@ -2,7 +2,7 @@
 cimport libc.stdint as stdint
 
 cdef extern from "walksat.h":
-    stdint.uint64_t c_walksat(
+    double c_walksat(
         stdint.uint64_t seed,
         stdint.uint64_t max_time_s,
         double rand_var_prob,
@@ -70,7 +70,7 @@ def walksat(
 
     satisfiable_c = c_walksat(seed_c, max_time_s_c, rand_var_prob_c, num_variables_c, num_clauses_c, &formula_flatten_c[0], &weight_c[0], &assignment_c[0])
 
-    satisfiable = int(satisfiable_c)
+    satisfiable = float(satisfiable_c)
 
     return satisfiable, [int(a) for a in assignment_np]
 

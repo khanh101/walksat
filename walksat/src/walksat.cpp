@@ -25,25 +25,27 @@ double eval_formula(
     const form_t& formula,
     const weight_t& weight,
     const assign_t& assign,
-    std::vector<uint64_t>& clause_unsat_list,
-    std::vector<double>& var_sat_to_unsat,
-    std::vector<double>& var_unsat_to_sat
+    std::vector<uint64_t>& clause_unsat_list, // list of unsat clauses
+    std::vector<double>& var_sat_to_unsat, // flip this var, lose this amount of weight
+    std::vector<double>& var_unsat_to_sat // flip this var, gian this amount of weight
 ) {
+    // reset
     clause_unsat_list.clear();
-    for (uint64_t v=0; v<var_sat_to_unsat.size(); v++) {
+    for (uint64_t v=0; v < var_sat_to_unsat.size(); v++) {
         var_sat_to_unsat[v] = 0.0;
     }
-    for (uint64_t v=0; v<var_unsat_to_sat.size(); v++) {
+    for (uint64_t v=0; v < var_unsat_to_sat.size(); v++) {
         var_unsat_to_sat[v] = 0.0;
     }
 
-    double num_unsat_clauses = 0;
+    // eval
+    double unsat_weight = 0;
     for (uint64_t c=0; c<formula.size(); c++) {
         const clause_t& clause = formula[c];
         // process
         bool sat = false;
-        var_t uniq_sat_var;
-        uint64_t sat_var_count = 0;
+        var_t uniq_sat_var; // the last var making this clause sat
+        uint64_t sat_var_count = 0; // number of var making this clause sat
 
         for (uint64_t l=0; l < clause.size(); l++) {
             lit_t lit = clause[l];
@@ -69,17 +71,34 @@ double eval_formula(
                 var_t var = abs(lit); 
                 var_unsat_to_sat[var] += weight[c];
             }
-            num_unsat_clauses += weight[c];
+            unsat_weight += weight[c];
             clause_unsat_list.push_back(c);
         }
     }
-    return num_unsat_clauses;
+    return unsat_weight;
 }
 
 
+uint64_t weighted_random(const std::vector<double>& dist, double v) {
+    double sum_weight;
+    for (uint64_t i=0; i<dist.size(); i++) {
+        sum_weight += dist[i];
+    }
+    double r = v * sum_weight;
+
+    uint64_t i = 0;
+    while (true) {
+        double w = dist[i];
+        if (r < w) {
+            return i;
+        }
+        r -= w;
+    }
+}
+
 
 // solve_formula : use walksat to solve SAT problem
-uint64_t solve_formula(
+double solve_formula(
     uint64_t seed, 
     uint64_t max_time_s,
     double rand_var_prob,
@@ -105,11 +124,11 @@ uint64_t solve_formula(
         }
 
         // walksat
-        std::vector<uint64_t> clause_unsat_list; // clause_unsat_list: list of unsat clauses
-        std::vector<double> var_sat_to_unsat(num_variables+1); // var_sat_to_unsat[10] = 20 : var 10 makes 20 clauses sat -> unsat
-        std::vector<double> var_unsat_to_sat(num_variables+1); // var_sat_to_unsat[10] = 20 : var 10 makes 20 clauses unsat -> sat
+        std::vector<uint64_t> clause_unsat_list;
+        std::vector<double> var_sat_to_unsat(num_variables+1);
+        std::vector<double> var_unsat_to_sat(num_variables+1);
 
-        uint64_t best_num_unsat_clauses = std::numeric_limits<uint64_t>::max();
+        uint64_t best_unsat_weight = std::numeric_limits<uint64_t>::max();
         assign_t best_assign(num_variables+1);
 
         uint64_t loop_count = 0;
@@ -119,16 +138,16 @@ uint64_t solve_formula(
             if (time_s > start_time_s + max_time_s) {
                 std::cout << "timeout: loop_count " << loop_count << std::endl;
                 copy_vector<value_t>(assign, best_assign);
-                return best_num_unsat_clauses;
+                return best_unsat_weight;
             }
             // eval formula
-            bool num_unsat_clauses = eval_formula(formula, weight, assign, clause_unsat_list, var_sat_to_unsat, var_unsat_to_sat);
-            if (num_unsat_clauses == 0) {
-                return 0;
+            bool unsat_weight = eval_formula(formula, weight, assign, clause_unsat_list, var_sat_to_unsat, var_unsat_to_sat);
+            if (unsat_weight == 0) {
+                return 0.0;
             }
 
-            if (num_unsat_clauses < best_num_unsat_clauses) {
-                best_num_unsat_clauses = num_unsat_clauses;
+            if (unsat_weight < best_unsat_weight) {
+                best_unsat_weight = unsat_weight;
                 copy_vector<value_t>(best_assign, assign);
             }
             
@@ -136,19 +155,12 @@ uint64_t solve_formula(
             // uint64_t c = clause_unsat_list[uint64_t(dist_float01(engine) * clause_unsat_list.size())];
             // const clause_t& clause = formula[c];
             // pick random unsat clause according to weight
-            double sum_weight = 0; 
-            for (uint64_t c=0; c < clause_unsat_list.size(); c++) {
-                sum_weight += weight[c];
+            std::vector<double> dist(clause_unsat_list.size());
+            for (uint64_t i=0; i<clause_unsat_list.size(); i++) {
+                dist[i] = weight[clause_unsat_list[i]];
             }
-            double r = dist_float01(engine) * sum_weight;
-            uint64_t c = 0;
-            while (true) {
-                double w = weight[clause_unsat_list[c]];
-                if (r < w) {
-                    break;
-                }
-                r -= w;
-            }
+            uint64_t i = weighted_random(dist, dist_float01(engine));
+            uint64_t c = clause_unsat_list[i];
             const clause_t& clause = formula[c];
 
             var_t flip_var;
@@ -179,7 +191,7 @@ uint64_t solve_formula(
 
 }
 
-uint64_t c_walksat(
+double c_walksat(
     uint64_t seed,
     uint64_t max_time_s,
     double rand_var_prob,
@@ -215,11 +227,11 @@ uint64_t c_walksat(
 
     assign_t assign(num_variables+1);
 
-    uint64_t best_num_unsat_clauses = solve_formula(seed, max_time_s, rand_var_prob, formula, weight, assign);
+    double best_unsat_weight = solve_formula(seed, max_time_s, rand_var_prob, formula, weight, assign);
 
     for (uint64_t v=0; v < num_variables+1; v++) {
         assignment[v] = assign[v];
     }
 
-    return best_num_unsat_clauses;
+    return best_unsat_weight;
 }
