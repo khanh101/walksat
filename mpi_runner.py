@@ -31,9 +31,11 @@ class Task:
     task.finalize_worker()
     """
     def setup(self, comm: Comm | None = None):
-        print("WARNING: setup has not been implemented", file=sys.stderr)
+        # print("WARNING: setup has not been implemented", file=sys.stderr)
+        pass
     def finalize(self):
-        print("WARNING: finalize has not been implemented", file=sys.stderr)
+        # print("WARNING: finalize has not been implemented", file=sys.stderr)
+        pass
     def produce(self) -> Iterable[Any]:
         raise NotImplemented
     def consume(self, result: Any):
@@ -41,9 +43,11 @@ class Task:
     def apply(self, item: Any) -> Any:
         raise NotImplemented
     def setup_worker(self, comm: Comm | None = None):
-        print("WARNING: setup_worker has not been implemented", file=sys.stderr)
+        # print("WARNING: setup_worker has not been implemented", file=sys.stderr)
+        pass
     def finalize_worker(self):
-        print("WARNING: finalize_worker has not been implemented", file=sys.stderr)
+        # print("WARNING: finalize_worker has not been implemented", file=sys.stderr)
+        pass
 
 def run_task(task: Task, comm: Comm | None = None):
     # RUN IN SEQUENTIAL MODE

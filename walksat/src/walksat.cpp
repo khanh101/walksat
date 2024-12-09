@@ -12,7 +12,7 @@ using form_t = std::vector<clause_t>;
 using value_t = int8_t; // -1, +1
 using assign_t = std::vector<value_t>;
 
-bool eval_formula(
+uint64_t eval_formula(
     const form_t& formula,
     const assign_t& assign,
     std::vector<uint64_t>& clause_unsat_list,
@@ -27,7 +27,7 @@ bool eval_formula(
         var_unsat_to_sat[v] = 0;
     }
 
-    bool global_sat = true;
+    uint64_t num_unsat_clauses = 0;
     for (uint64_t c=0; c<formula.size(); c++) {
         const clause_t& clause = formula[c];
         // process
@@ -59,11 +59,11 @@ bool eval_formula(
                 var_t var = abs(lit); 
                 var_unsat_to_sat[var] += 1;
             }
-            global_sat = false;
+            num_unsat_clauses += 1;
             clause_unsat_list.push_back(c);
         }
     }
-    return global_sat;
+    return num_unsat_clauses;
 }
 
 // solve_formula : use walksat to solve SAT problem
@@ -105,8 +105,8 @@ bool solve_formula(
                 return false;
             }
             // eval formula
-            bool sat = eval_formula(formula, assign, clause_unsat_list, var_sat_to_unsat, var_unsat_to_sat);
-            if (sat) {
+            bool num_unsat_clauses = eval_formula(formula, assign, clause_unsat_list, var_sat_to_unsat, var_unsat_to_sat);
+            if (num_unsat_clauses == 0) {
                 return true;
             }
             // pick random unsat clause uniformly
