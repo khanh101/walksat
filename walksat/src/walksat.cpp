@@ -21,7 +21,7 @@ template<typename T> void copy_vector(std::vector<T>& target, const std::vector<
     }
 }
 
-uint64_t eval_formula(
+double eval_formula(
     const form_t& formula,
     const weight_t& weight,
     const assign_t& assign,
@@ -37,7 +37,7 @@ uint64_t eval_formula(
         var_unsat_to_sat[v] = 0.0;
     }
 
-    uint64_t num_unsat_clauses = 0;
+    double num_unsat_clauses = 0;
     for (uint64_t c=0; c<formula.size(); c++) {
         const clause_t& clause = formula[c];
         // process
@@ -69,7 +69,7 @@ uint64_t eval_formula(
                 var_t var = abs(lit); 
                 var_unsat_to_sat[var] += weight[c];
             }
-            num_unsat_clauses += 1;
+            num_unsat_clauses += weight[c];
             clause_unsat_list.push_back(c);
         }
     }
