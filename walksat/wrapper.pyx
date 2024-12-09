@@ -50,7 +50,7 @@ def walksat(
             formula_flatten.append(literal)
         formula_flatten.append(0)
     formula_flatten_np = np.ascontiguousarray(np.array(formula_flatten, dtype=np.int64))
-    assignment_np = np.ascontiguousarray(np.empty(shape=(num_variables,), dtype=np.int8))
+    assignment_np = np.ascontiguousarray(np.empty(shape=(num_variables + 1,), dtype=np.int8))
 
     cdef stdint.uint64_t seed_c = seed
     cdef stdint.uint64_t max_time_s_c = max_time_s

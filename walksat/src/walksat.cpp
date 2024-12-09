@@ -172,8 +172,8 @@ uint8_t c_walksat(
 
     bool sat = solve_formula(seed, max_time_s, rand_var_prob, formula, assign);
 
-    for (uint64_t v=0; v < num_variables; v++) {
-        assignment[v] = assign[v+1];
+    for (uint64_t v=0; v < num_variables+1; v++) {
+        assignment[v] = assign[v];
     }
 
     return uint8_t(sat);
