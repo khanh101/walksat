@@ -125,6 +125,7 @@ double solve_formula(
 
         // walksat
         std::vector<uint64_t> clause_unsat_list;
+        std::vector<double> clause_unsat_dist;
         std::vector<double> var_sat_to_unsat(num_variables+1);
         std::vector<double> var_unsat_to_sat(num_variables+1);
 
@@ -155,9 +156,9 @@ double solve_formula(
             // uint64_t c = clause_unsat_list[uint64_t(dist_float01(engine) * clause_unsat_list.size())];
             // const clause_t& clause = formula[c];
             // pick random unsat clause according to weight
-            std::vector<double> dist(clause_unsat_list.size());
+            clause_unsat_dist.clear()
             for (uint64_t i=0; i<clause_unsat_list.size(); i++) {
-                dist[i] = weight[clause_unsat_list[i]];
+                dist.push_back(weight[clause_unsat_list[i]]);
             }
             uint64_t i = weighted_random(dist, dist_float01(engine));
             uint64_t c = clause_unsat_list[i];
