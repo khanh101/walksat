@@ -45,7 +45,10 @@ class MyTask(Task):
         self.weight[2] = 0
     
     def produce(self):
-        for i in range(4 * (self.size - 1)): # 1 job for each worker
+        num_workers = 1
+        if self.size > 1:
+            num_workers = self.size - 1
+        for i in range(4 * num_workers): # 1 job for each worker
             yield self.formula, self.weight
     
     def consume(self, result):
