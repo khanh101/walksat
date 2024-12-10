@@ -31,11 +31,9 @@ class Task:
     task.finalize_worker()
     """
     def setup(self, comm: Comm | None = None):
-        # print("WARNING: setup has not been implemented", file=sys.stderr)
-        pass
+        pass; # print("WARNING: setup has not been implemented", file=sys.stderr)
     def finalize(self):
-        # print("WARNING: finalize has not been implemented", file=sys.stderr)
-        pass
+        pass; # print("WARNING: finalize has not been implemented", file=sys.stderr)
     def produce(self) -> Iterable[Any]:
         raise NotImplemented
     def consume(self, result: Any):
@@ -43,17 +41,15 @@ class Task:
     def apply(self, item: Any) -> Any:
         raise NotImplemented
     def setup_worker(self, comm: Comm | None = None):
-        # print("WARNING: setup_worker has not been implemented", file=sys.stderr)
-        pass
+        pass; # print("WARNING: setup_worker has not been implemented", file=sys.stderr)
     def finalize_worker(self):
-        # print("WARNING: finalize_worker has not been implemented", file=sys.stderr)
-        pass
+        pass; # print("WARNING: finalize_worker has not been implemented", file=sys.stderr)
 
 def run_task(task: Task, comm: Comm | None = None):
     # RUN IN SEQUENTIAL MODE
     if comm is None or comm.get_size() == 1:
         print("WARNING: running in sequential mode. Use mpiexec to run in parallel", file=sys.stderr)
-        task.setup()
+        task.setup(comm)
         task.setup_worker(comm)
         for item in task.produce():
             result = task.apply(item)
@@ -147,6 +143,7 @@ if __name__ == "__main__":
     from tqdm import tqdm
     import time
     import random
+    import numpy as np
     class ExampleTask(Task):
         def setup(self, comm: Comm | None = None):
             self.pbar = tqdm(total=26, desc="running ...")
@@ -156,13 +153,19 @@ if __name__ == "__main__":
             print()
 
         def setup_worker(self, comm: Comm | None = None):
-            self.signature = f"{comm.get_rank()}"
+            seed = int(comm.get_rank() * time.time()) % 2**32
+            self.rng = np.random.default_rng(seed=seed)
+            self.sign = comm.get_rank()
+
+        def finalize_worker(self):
+            pass
 
         def apply(self, item: Any) -> Any:
             assert isinstance(item, str), "item must be str"
             new_item = item.upper()
-            time.sleep(0.1*random.random())
-            return str(new_item) + "_" + self.signature
+            time.sleep(0.1*self.rng.random())
+
+            return f"{new_item}_{self.sign}"
         
         def produce(self) -> Iterator[int]:
             return iter("abcdefghijklmnopqrstuvwxyz")

@@ -45,12 +45,12 @@ class MyTask(Task):
         self.weight[2] = 0
     
     def produce(self):
-        for i in range(1 * (self.size - 1)): # 1 job for each worker
+        for i in range(4 * (self.size - 1)): # 1 job for each worker
             yield self.formula, self.weight
     
     def consume(self, result):
-        best_num_unsat_clauses, assign = result
-        print(best_num_unsat_clauses, assign)
+        seed, best_num_unsat_clauses, assign = result
+        print(seed, best_num_unsat_clauses, assign)
 
     def setup_worker(self, comm = None):
         self.seed = comm.get_rank() + 1000
@@ -58,7 +58,6 @@ class MyTask(Task):
 
     def apply(self, item):
         formula, weight = item
-        print(f"running walksat with seed {self.seed}")
         best_num_unsat_clauses, assignment = walksat(
             formula=formula,
             weight=weight,
@@ -66,8 +65,9 @@ class MyTask(Task):
             max_time_s=5,
             rand_var_prob=0.3,
         )
+        seed = self.seed
         self.seed += self.step
-        return best_num_unsat_clauses, assignment
+        return seed, best_num_unsat_clauses, assignment
 
 if __name__ == "__main__":
     from mpi4py import MPI
