@@ -55,7 +55,8 @@ struct solution {
     std::vector<weight_t> var_flip_weight_change; // gain this amount of weight if var[i] is flipped
 };
 
-// init_solution - 
+// init_solution
+// given an empty object solution, initialize solution.assigment
 void init_solution(const problem& problem, solution& solution, rand_t rand) {
     solution.assignment.clear();
     solution.assignment.push_back(0);
@@ -68,7 +69,9 @@ void init_solution(const problem& problem, solution& solution, rand_t rand) {
     }
 }
 
-// eval_solution - given assignment fill in its values
+// eval_solution
+// given solution.assigment
+// calculate solution.assignment_weight, solution.clause_unsat_idx_list, solution.var_flip_weight_change
 void eval_solution(const problem& problem, solution& solution) {
     // reset
     solution.clause_unsat_idx_list.clear();
@@ -119,23 +122,10 @@ void eval_solution(const problem& problem, solution& solution) {
     }
 }
 
-void make_clause_unsat_dist(const problem& problem, solution& solution) {
-    // reset 
-    solution.clause_unsat_idx_dist.clear();
-    // set
-    for (uint64_t i=0; i < solution.clause_unsat_idx_list.size(); i++) {
-        uint64_t c = solution.clause_unsat_idx_list[i];
-        solution.clause_unsat_idx_dist.push_back(problem.weight_list[c]);
-    }
-}
-
-void next_assignment(const problem& problem, solution& solution, rand_t rand, double random_flip_prob, double reset_prob) {
-    // with reset_prob, reset
-    if (rand() < reset_prob) {
-        init_solution(problem, solution, rand);
-        return;
-    }
-    // otherwise, flip var
+// flip_var_solution
+// given solution.clause_unsat_idx_list, solution.var_flip_weight_change
+// flip a var according walksat algorithm
+void flip_var_solution(const problem& problem, solution& solution, rand_t rand, double random_flip_prob) {
     // make clause_unsat_dist
     solution.clause_unsat_idx_dist.clear();
     for (uint64_t i=0; i < solution.clause_unsat_idx_list.size(); i++) {
@@ -152,10 +142,10 @@ void next_assignment(const problem& problem, solution& solution, rand_t rand, do
         flip_var = abs(clause[uint64_t(rand() * clause.size())]);
     } else {
         // pick the var with most weight change
-        weight_t best_weigth_change = std::numeric_limits<double>::max();
+        weight_t best_weight_change = std::numeric_limits<double>::max();
         for (var_t var = 1; var <= problem.num_variables; var++) {
-            if (solution.var_flip_weight_change[var] < best_weigth_change) {
-                best_weigth_change = solution.var_flip_weight_change[var];
+            if (solution.var_flip_weight_change[var] < best_weight_change) {
+                best_weight_change = solution.var_flip_weight_change[var];
                 flip_var = var;
             }
         }
@@ -165,7 +155,7 @@ void next_assignment(const problem& problem, solution& solution, rand_t rand, do
     return;
 }
 
-solution local_search_problem(const problem& problem, uint64_t seed, uint64_t max_time_s, double random_flip_prob, double reset_prob) {
+solution local_search_problem(const problem& problem, uint64_t seed, uint64_t max_time_s, double random_flip_prob) {
 
     solution solution;
 
@@ -176,13 +166,13 @@ solution local_search_problem(const problem& problem, uint64_t seed, uint64_t ma
         return dist_float01(engine);
     };
 
-    init_solution(problem, solution, rand);
+    
     uint64_t start_time_s = std::time(nullptr);
     uint64_t loop_count;
-
     uint64_t best_assignment_weight = std::numeric_limits<uint64_t>::max();
     assign_t best_assignment(problem.num_variables+1);
-
+    
+    init_solution(problem, solution, rand);
     while (true) {
         loop_count++;
 
@@ -204,13 +194,8 @@ solution local_search_problem(const problem& problem, uint64_t seed, uint64_t ma
             return solution;
         }
 
-        if (rand() < reset_prob) { // reset and search again
-            init_solution(problem, solution, rand);
-            continue;
-        }
-
         // flip
-        next_assignment(problem, solution, rand, random_flip_prob, reset_prob);        
+        flip_var_solution(problem, solution, rand, random_flip_prob);
     }
 }
 
@@ -247,7 +232,7 @@ double c_walksat(
         problem.weight_list.push_back(clause_weight[c]);
     }
 
-    solution solution = local_search_problem(problem, seed, max_time_s, rand_var_prob, 0.0);
+    solution solution = local_search_problem(problem, seed, max_time_s, rand_var_prob);
 
     for (uint64_t v=0; v < num_variables+1; v++) {
         assignment[v] = solution.assignment[v];
