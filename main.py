@@ -66,7 +66,7 @@ class MyTask(Task):
             weight=weight,
             seed=self.seed,
             max_time_s=5,
-            rand_var_prob=0.3,
+            rand_var_prob=0.2,
         )
         seed = self.seed
         self.seed += self.step
