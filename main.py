@@ -7,9 +7,10 @@ p cnf 20  91
 1 2 0
 1 0
 -2 0
+-1 0
 """
 
-weight = [1, 1, 0]
+weight = [1, 1, 0, 1]
 
 def parse_dimacs(formula_dimacs: str) -> Iterator[list[list[int]]]:
     problem = None

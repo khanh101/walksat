@@ -36,6 +36,8 @@ def walksat(
     for clause in formula:
         for literal in clause:
             assert literal != 0
+    if weight is not None:
+        assert len(weight) == len(formula)
     # end check
     
     num_clauses = len(formula)
