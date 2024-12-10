@@ -70,7 +70,7 @@ class MyTask(Task):
             formula=formula,
             weight=weight,
             seed=seed,
-            max_time_s=5,
+            max_time_s=2,
             rand_var_prob=0.2,
         )
         return seed, best_num_unsat_clauses, assignment

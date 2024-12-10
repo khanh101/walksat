@@ -188,7 +188,7 @@ solution local_search_problem(const problem& problem, uint64_t seed, uint64_t ma
 
         uint64_t time_s = std::time(nullptr);
         if (time_s > start_time_s + max_time_s) {
-            std::cerr << "walksat_timeout: loop_count " << loop_count << std::endl;
+            // std::cerr << "walksat_timeout: loop_count " << loop_count << std::endl;
             solution.assignment_weight = best_assignment_weight;
             copy_vector(solution.assignment, best_assignment);
             return solution;
