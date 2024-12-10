@@ -3,6 +3,7 @@ from walksat import walksat
 import random
 from mpi_runner import run_task, Task, MPI_Comm
 
+num_variables = 2
 formula_dimacs = """
 p cnf 2 4 
 1 2 0
@@ -65,6 +66,7 @@ class MyTask(Task):
         formula, weight = item
         seed = random.randrange(2**64)
         best_num_unsat_clauses, assignment = walksat(
+            num_variables=num_variables,
             formula=formula,
             weight=weight,
             seed=seed,

@@ -16,6 +16,7 @@ cdef extern from "walksat.h":
 import numpy as np
 
 def walksat(
+    num_variables: int,
     formula: list[list[int]],
     weight: list[float] | None = None,
     seed: int = 1234,
@@ -41,13 +42,7 @@ def walksat(
     # end check
     
     num_clauses = len(formula)
-    num_variables = 0
-    for clause in formula:
-        for literal in clause:
-            num_variables = max(num_variables, abs(literal))
-
-    assert num_variables > 0, f"num_variables is {num_variables}"
-
+    
     formula_flatten = []
     for clause in formula:
         for literal in clause:
