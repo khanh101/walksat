@@ -35,9 +35,9 @@ def walksat(
     # check
     for clause in formula:
         for literal in clause:
-            assert literal != 0
+            assert literal != 0, "zero literal"
     if weight is not None:
-        assert len(weight) == len(formula)
+        assert len(weight) == len(formula), f"len(weight) != len(formula)"
     # end check
     
     num_clauses = len(formula)
@@ -46,7 +46,7 @@ def walksat(
         for literal in clause:
             num_variables = max(num_variables, abs(literal))
 
-    assert num_variables > 0
+    assert num_variables > 0, f"num_variables is {num_variables}"
 
     formula_flatten = []
     for clause in formula:
