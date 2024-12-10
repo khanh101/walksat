@@ -129,6 +129,42 @@ void make_clause_unsat_dist(const problem& problem, solution& solution) {
     }
 }
 
+void next_assignment(const problem& problem, solution& solution, rand_t rand, double random_flip_prob, double reset_prob) {
+    // with reset_prob, reset
+    if (rand() < reset_prob) {
+        init_solution(problem, solution, rand);
+        return;
+    }
+    // otherwise, flip var
+    // make clause_unsat_dist
+    solution.clause_unsat_idx_dist.clear();
+    for (uint64_t i=0; i < solution.clause_unsat_idx_list.size(); i++) {
+        uint64_t c = solution.clause_unsat_idx_list[i];
+        solution.clause_unsat_idx_dist.push_back(problem.weight_list[c]);
+    }
+    // pick random unsat clause according to weight
+    uint64_t i = weighted_random(solution.clause_unsat_idx_dist, rand());
+    uint64_t c = solution.clause_unsat_idx_list[i];
+    const clause_t& clause = problem.clause_list[c];
+    var_t flip_var;
+    if (rand() < random_flip_prob) {
+        // with random_flip_prob, pick random var uniformly in clause
+        flip_var = abs(clause[uint64_t(rand() * clause.size())]);
+    } else {
+        // pick the var with most weight change
+        weight_t best_weigth_change = std::numeric_limits<double>::max();
+        for (var_t var = 1; var <= problem.num_variables; var++) {
+            if (solution.var_flip_weight_change[var] < best_weigth_change) {
+                best_weigth_change = solution.var_flip_weight_change[var];
+                flip_var = var;
+            }
+        }
+    }
+    // flip
+    solution.assignment[flip_var] *= -1;
+    return;
+}
+
 solution local_search_problem(const problem& problem, uint64_t seed, uint64_t max_time_s, double random_flip_prob, double reset_prob) {
 
     solution solution;
@@ -174,27 +210,7 @@ solution local_search_problem(const problem& problem, uint64_t seed, uint64_t ma
         }
 
         // flip
-        // pick random unsat clause according to weight
-        make_clause_unsat_dist(problem, solution);
-        uint64_t i = weighted_random(solution.clause_unsat_idx_dist, rand());
-        uint64_t c = solution.clause_unsat_idx_list[i];
-        const clause_t& clause = problem.clause_list[c];
-        var_t flip_var;
-        if (rand() < random_flip_prob) {
-            // with random_flip_prob, pick random var uniformly in clause
-            flip_var = abs(clause[uint64_t(rand() * clause.size())]);
-        } else {
-            // pick the var with most weight change
-            weight_t best_weigth_change = std::numeric_limits<double>::max();
-            for (var_t var = 1; var <= problem.num_variables; var++) {
-                if (solution.var_flip_weight_change[var] < best_weigth_change) {
-                    best_weigth_change = solution.var_flip_weight_change[var];
-                    flip_var = var;
-                }
-            }
-        }
-        // flip and repeat
-        solution.assignment[flip_var] *= -1;
+        next_assignment(problem, solution, rand, random_flip_prob, reset_prob);        
     }
 }
 
