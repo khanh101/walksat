@@ -9,6 +9,8 @@ p cnf 20  91
 -2 0
 """
 
+weight = [1, 1, 0]
+
 def parse_dimacs(formula_dimacs: str) -> Iterator[list[list[int]]]:
     problem = None
     for line in formula_dimacs.split("\n"):
@@ -41,8 +43,7 @@ class MyTask(Task):
     def setup(self, comm = None):
         self.size = comm.get_size()
         self.formula = list(parse_dimacs(formula_dimacs=formula_dimacs))[0]
-        self.weight = [1.0 for _ in range(len(self.formula))]
-        self.weight[2] = 0
+        self.weight = weight
     
     def produce(self):
         num_workers = 1
