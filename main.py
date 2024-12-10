@@ -1,9 +1,10 @@
 from typing import Iterator
 from walksat import walksat
+import random
 from mpi_runner import run_task, Task, MPI_Comm
 
 formula_dimacs = """
-p cnf 20  91 
+p cnf 2 4 
 1 2 0
 1 0
 -2 0
@@ -42,36 +43,34 @@ def parse_dimacs(formula_dimacs: str) -> Iterator[list[list[int]]]:
 
 class MyTask(Task):
     def setup(self, comm = None):
-        self.size = comm.get_size()
+        self.num_workers = 1
+        if comm.get_size() > 1:
+            self.num_workers = comm.get_size() - 1
+
         self.formula = list(parse_dimacs(formula_dimacs=formula_dimacs))[0]
         self.weight = weight
     
     def produce(self):
-        num_workers = 1
-        if self.size > 1:
-            num_workers = self.size - 1
-        for i in range(4 * num_workers): # 1 job for each worker
+        for i in range(4 * self.num_workers): # 4 job for each worker
             yield self.formula, self.weight
     
     def consume(self, result):
-        seed, best_num_unsat_clauses, assign = result
-        print(seed, best_num_unsat_clauses, assign)
+        seed, best_num_unsat_clauses, assignment = result
+        print(seed, best_num_unsat_clauses, assignment)
 
     def setup_worker(self, comm = None):
-        self.seed = comm.get_rank() + 1000
-        self.step = comm.get_size() - 1
+        random.seed(comm.get_rank() + 1234)
 
     def apply(self, item):
         formula, weight = item
+        seed = random.randrange(2**64)
         best_num_unsat_clauses, assignment = walksat(
             formula=formula,
             weight=weight,
-            seed=self.seed,
+            seed=seed,
             max_time_s=5,
             rand_var_prob=0.2,
         )
-        seed = self.seed
-        self.seed += self.step
         return seed, best_num_unsat_clauses, assignment
 
 if __name__ == "__main__":

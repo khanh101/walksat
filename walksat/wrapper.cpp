@@ -2959,7 +2959,6 @@ static const char __pyx_k_MemoryError[] = "MemoryError";
 static const char __pyx_k_PickleError[] = "PickleError";
 static const char __pyx_k_collections[] = "collections";
 static const char __pyx_k_num_clauses[] = "num_clauses";
-static const char __pyx_k_satisfiable[] = "satisfiable";
 static const char __pyx_k_assignment_c[] = "assignment_c";
 static const char __pyx_k_initializing[] = "_initializing";
 static const char __pyx_k_is_coroutine[] = "_is_coroutine";
@@ -2974,7 +2973,6 @@ static const char __pyx_k_num_clauses_c[] = "num_clauses_c";
 static const char __pyx_k_num_variables[] = "num_variables";
 static const char __pyx_k_rand_var_prob[] = "rand_var_prob";
 static const char __pyx_k_reduce_cython[] = "__reduce_cython__";
-static const char __pyx_k_satisfiable_c[] = "satisfiable_c";
 static const char __pyx_k_AssertionError[] = "AssertionError";
 static const char __pyx_k_View_MemoryView[] = "View.MemoryView";
 static const char __pyx_k_allocate_buffer[] = "allocate_buffer";
@@ -2988,12 +2986,14 @@ static const char __pyx_k_rand_var_prob_c[] = "rand_var_prob_c";
 static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
 static const char __pyx_k_walksat_wrapper[] = "walksat.wrapper";
 static const char __pyx_k_ascontiguousarray[] = "ascontiguousarray";
+static const char __pyx_k_assignment_weight[] = "assignment_weight";
 static const char __pyx_k_formula_flatten_c[] = "formula_flatten_c";
 static const char __pyx_k_pyx_unpickle_Enum[] = "__pyx_unpickle_Enum";
 static const char __pyx_k_asyncio_coroutines[] = "asyncio.coroutines";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_formula_flatten_np[] = "formula_flatten_np";
 static const char __pyx_k_strided_and_direct[] = "<strided and direct>";
+static const char __pyx_k_assignment_weight_c[] = "assignment_weight_c";
 static const char __pyx_k_tuple_bool_list_int[] = "tuple[bool, list[int]]";
 static const char __pyx_k_walksat_wrapper_pyx[] = "walksat/wrapper.pyx";
 static const char __pyx_k_strided_and_indirect[] = "<strided and indirect>";
@@ -3156,6 +3156,8 @@ typedef struct {
   PyObject *__pyx_n_s_ascontiguousarray;
   PyObject *__pyx_n_s_assignment_c;
   PyObject *__pyx_n_s_assignment_np;
+  PyObject *__pyx_n_s_assignment_weight;
+  PyObject *__pyx_n_s_assignment_weight_c;
   PyObject *__pyx_n_s_asyncio_coroutines;
   PyObject *__pyx_n_s_base;
   PyObject *__pyx_n_s_c;
@@ -3240,8 +3242,6 @@ typedef struct {
   PyObject *__pyx_n_s_reduce_ex;
   PyObject *__pyx_n_s_register;
   PyObject *__pyx_n_s_return;
-  PyObject *__pyx_n_s_satisfiable;
-  PyObject *__pyx_n_s_satisfiable_c;
   PyObject *__pyx_n_s_seed;
   PyObject *__pyx_n_s_seed_c;
   PyObject *__pyx_n_s_setstate;
@@ -3392,6 +3392,8 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_ascontiguousarray);
   Py_CLEAR(clear_module_state->__pyx_n_s_assignment_c);
   Py_CLEAR(clear_module_state->__pyx_n_s_assignment_np);
+  Py_CLEAR(clear_module_state->__pyx_n_s_assignment_weight);
+  Py_CLEAR(clear_module_state->__pyx_n_s_assignment_weight_c);
   Py_CLEAR(clear_module_state->__pyx_n_s_asyncio_coroutines);
   Py_CLEAR(clear_module_state->__pyx_n_s_base);
   Py_CLEAR(clear_module_state->__pyx_n_s_c);
@@ -3476,8 +3478,6 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_reduce_ex);
   Py_CLEAR(clear_module_state->__pyx_n_s_register);
   Py_CLEAR(clear_module_state->__pyx_n_s_return);
-  Py_CLEAR(clear_module_state->__pyx_n_s_satisfiable);
-  Py_CLEAR(clear_module_state->__pyx_n_s_satisfiable_c);
   Py_CLEAR(clear_module_state->__pyx_n_s_seed);
   Py_CLEAR(clear_module_state->__pyx_n_s_seed_c);
   Py_CLEAR(clear_module_state->__pyx_n_s_setstate);
@@ -3606,6 +3606,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_ascontiguousarray);
   Py_VISIT(traverse_module_state->__pyx_n_s_assignment_c);
   Py_VISIT(traverse_module_state->__pyx_n_s_assignment_np);
+  Py_VISIT(traverse_module_state->__pyx_n_s_assignment_weight);
+  Py_VISIT(traverse_module_state->__pyx_n_s_assignment_weight_c);
   Py_VISIT(traverse_module_state->__pyx_n_s_asyncio_coroutines);
   Py_VISIT(traverse_module_state->__pyx_n_s_base);
   Py_VISIT(traverse_module_state->__pyx_n_s_c);
@@ -3690,8 +3692,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_reduce_ex);
   Py_VISIT(traverse_module_state->__pyx_n_s_register);
   Py_VISIT(traverse_module_state->__pyx_n_s_return);
-  Py_VISIT(traverse_module_state->__pyx_n_s_satisfiable);
-  Py_VISIT(traverse_module_state->__pyx_n_s_satisfiable_c);
   Py_VISIT(traverse_module_state->__pyx_n_s_seed);
   Py_VISIT(traverse_module_state->__pyx_n_s_seed_c);
   Py_VISIT(traverse_module_state->__pyx_n_s_setstate);
@@ -3832,6 +3832,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_ascontiguousarray __pyx_mstate_global->__pyx_n_s_ascontiguousarray
 #define __pyx_n_s_assignment_c __pyx_mstate_global->__pyx_n_s_assignment_c
 #define __pyx_n_s_assignment_np __pyx_mstate_global->__pyx_n_s_assignment_np
+#define __pyx_n_s_assignment_weight __pyx_mstate_global->__pyx_n_s_assignment_weight
+#define __pyx_n_s_assignment_weight_c __pyx_mstate_global->__pyx_n_s_assignment_weight_c
 #define __pyx_n_s_asyncio_coroutines __pyx_mstate_global->__pyx_n_s_asyncio_coroutines
 #define __pyx_n_s_base __pyx_mstate_global->__pyx_n_s_base
 #define __pyx_n_s_c __pyx_mstate_global->__pyx_n_s_c
@@ -3916,8 +3918,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_reduce_ex __pyx_mstate_global->__pyx_n_s_reduce_ex
 #define __pyx_n_s_register __pyx_mstate_global->__pyx_n_s_register
 #define __pyx_n_s_return __pyx_mstate_global->__pyx_n_s_return
-#define __pyx_n_s_satisfiable __pyx_mstate_global->__pyx_n_s_satisfiable
-#define __pyx_n_s_satisfiable_c __pyx_mstate_global->__pyx_n_s_satisfiable_c
 #define __pyx_n_s_seed __pyx_mstate_global->__pyx_n_s_seed
 #define __pyx_n_s_seed_c __pyx_mstate_global->__pyx_n_s_seed_c
 #define __pyx_n_s_setstate __pyx_mstate_global->__pyx_n_s_setstate
@@ -17876,8 +17876,8 @@ static PyObject *__pyx_pf_7walksat_7wrapper_walksat(CYTHON_UNUSED PyObject *__py
   __Pyx_memviewslice __pyx_v_formula_flatten_c = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_weight_c = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_assignment_c = { 0, 0, { 0 }, { 0 }, { 0 } };
-  double __pyx_v_satisfiable_c;
-  double __pyx_v_satisfiable;
+  double __pyx_v_assignment_weight_c;
+  double __pyx_v_assignment_weight;
   CYTHON_UNUSED Py_ssize_t __pyx_7genexpr__pyx_v__;
   PyObject *__pyx_8genexpr1__pyx_v_a = NULL;
   PyObject *__pyx_r = NULL;
@@ -18698,7 +18698,7 @@ static PyObject *__pyx_pf_7walksat_7wrapper_walksat(CYTHON_UNUSED PyObject *__py
  *     cdef double[:] weight_c = weight_np
  *     cdef stdint.int8_t[:] assignment_c = assignment_np             # <<<<<<<<<<<<<<
  * 
- *     satisfiable_c = c_walksat(seed_c, max_time_s_c, rand_var_prob_c, num_variables_c, num_clauses_c, &formula_flatten_c[0], &weight_c[0], &assignment_c[0])
+ *     assignment_weight_c = c_walksat(seed_c, max_time_s_c, rand_var_prob_c, num_variables_c, num_clauses_c, &formula_flatten_c[0], &weight_c[0], &assignment_c[0])
  */
   __pyx_t_18 = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_int8_t(__pyx_v_assignment_np, PyBUF_WRITABLE); if (unlikely(!__pyx_t_18.memview)) __PYX_ERR(0, 71, __pyx_L1_error)
   __pyx_v_assignment_c = __pyx_t_18;
@@ -18708,9 +18708,9 @@ static PyObject *__pyx_pf_7walksat_7wrapper_walksat(CYTHON_UNUSED PyObject *__py
   /* "walksat/wrapper.pyx":73
  *     cdef stdint.int8_t[:] assignment_c = assignment_np
  * 
- *     satisfiable_c = c_walksat(seed_c, max_time_s_c, rand_var_prob_c, num_variables_c, num_clauses_c, &formula_flatten_c[0], &weight_c[0], &assignment_c[0])             # <<<<<<<<<<<<<<
+ *     assignment_weight_c = c_walksat(seed_c, max_time_s_c, rand_var_prob_c, num_variables_c, num_clauses_c, &formula_flatten_c[0], &weight_c[0], &assignment_c[0])             # <<<<<<<<<<<<<<
  * 
- *     satisfiable = float(satisfiable_c)
+ *     assignment_weight = float(assignment_weight_c)
  */
   __pyx_t_19 = 0;
   __pyx_t_20 = -1;
@@ -18742,25 +18742,25 @@ static PyObject *__pyx_pf_7walksat_7wrapper_walksat(CYTHON_UNUSED PyObject *__py
     __Pyx_RaiseBufferIndexError(__pyx_t_20);
     __PYX_ERR(0, 73, __pyx_L1_error)
   }
-  __pyx_v_satisfiable_c = c_walksat(__pyx_v_seed_c, __pyx_v_max_time_s_c, __pyx_v_rand_var_prob_c, __pyx_v_num_variables_c, __pyx_v_num_clauses_c, (&(*((int64_t *) ( /* dim=0 */ (__pyx_v_formula_flatten_c.data + __pyx_t_19 * __pyx_v_formula_flatten_c.strides[0]) )))), (&(*((double *) ( /* dim=0 */ (__pyx_v_weight_c.data + __pyx_t_21 * __pyx_v_weight_c.strides[0]) )))), (&(*((int8_t *) ( /* dim=0 */ (__pyx_v_assignment_c.data + __pyx_t_22 * __pyx_v_assignment_c.strides[0]) )))));
+  __pyx_v_assignment_weight_c = c_walksat(__pyx_v_seed_c, __pyx_v_max_time_s_c, __pyx_v_rand_var_prob_c, __pyx_v_num_variables_c, __pyx_v_num_clauses_c, (&(*((int64_t *) ( /* dim=0 */ (__pyx_v_formula_flatten_c.data + __pyx_t_19 * __pyx_v_formula_flatten_c.strides[0]) )))), (&(*((double *) ( /* dim=0 */ (__pyx_v_weight_c.data + __pyx_t_21 * __pyx_v_weight_c.strides[0]) )))), (&(*((int8_t *) ( /* dim=0 */ (__pyx_v_assignment_c.data + __pyx_t_22 * __pyx_v_assignment_c.strides[0]) )))));
 
   /* "walksat/wrapper.pyx":75
- *     satisfiable_c = c_walksat(seed_c, max_time_s_c, rand_var_prob_c, num_variables_c, num_clauses_c, &formula_flatten_c[0], &weight_c[0], &assignment_c[0])
+ *     assignment_weight_c = c_walksat(seed_c, max_time_s_c, rand_var_prob_c, num_variables_c, num_clauses_c, &formula_flatten_c[0], &weight_c[0], &assignment_c[0])
  * 
- *     satisfiable = float(satisfiable_c)             # <<<<<<<<<<<<<<
+ *     assignment_weight = float(assignment_weight_c)             # <<<<<<<<<<<<<<
  * 
- *     return satisfiable, [int(a) for a in assignment_np]
+ *     return assignment_weight, [int(a) for a in assignment_np]
  */
-  __pyx_v_satisfiable = __pyx_v_satisfiable_c;
+  __pyx_v_assignment_weight = __pyx_v_assignment_weight_c;
 
   /* "walksat/wrapper.pyx":77
- *     satisfiable = float(satisfiable_c)
+ *     assignment_weight = float(assignment_weight_c)
  * 
- *     return satisfiable, [int(a) for a in assignment_np]             # <<<<<<<<<<<<<<
+ *     return assignment_weight, [int(a) for a in assignment_np]             # <<<<<<<<<<<<<<
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_satisfiable); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_assignment_weight); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   { /* enter inner scope */
     __pyx_t_10 = PyList_New(0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 77, __pyx_L27_error)
@@ -19905,6 +19905,8 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_ascontiguousarray, __pyx_k_ascontiguousarray, sizeof(__pyx_k_ascontiguousarray), 0, 0, 1, 1},
     {&__pyx_n_s_assignment_c, __pyx_k_assignment_c, sizeof(__pyx_k_assignment_c), 0, 0, 1, 1},
     {&__pyx_n_s_assignment_np, __pyx_k_assignment_np, sizeof(__pyx_k_assignment_np), 0, 0, 1, 1},
+    {&__pyx_n_s_assignment_weight, __pyx_k_assignment_weight, sizeof(__pyx_k_assignment_weight), 0, 0, 1, 1},
+    {&__pyx_n_s_assignment_weight_c, __pyx_k_assignment_weight_c, sizeof(__pyx_k_assignment_weight_c), 0, 0, 1, 1},
     {&__pyx_n_s_asyncio_coroutines, __pyx_k_asyncio_coroutines, sizeof(__pyx_k_asyncio_coroutines), 0, 0, 1, 1},
     {&__pyx_n_s_base, __pyx_k_base, sizeof(__pyx_k_base), 0, 0, 1, 1},
     {&__pyx_n_s_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 0, 1, 1},
@@ -19989,8 +19991,6 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_reduce_ex, __pyx_k_reduce_ex, sizeof(__pyx_k_reduce_ex), 0, 0, 1, 1},
     {&__pyx_n_s_register, __pyx_k_register, sizeof(__pyx_k_register), 0, 0, 1, 1},
     {&__pyx_n_s_return, __pyx_k_return, sizeof(__pyx_k_return), 0, 0, 1, 1},
-    {&__pyx_n_s_satisfiable, __pyx_k_satisfiable, sizeof(__pyx_k_satisfiable), 0, 0, 1, 1},
-    {&__pyx_n_s_satisfiable_c, __pyx_k_satisfiable_c, sizeof(__pyx_k_satisfiable_c), 0, 0, 1, 1},
     {&__pyx_n_s_seed, __pyx_k_seed, sizeof(__pyx_k_seed), 0, 0, 1, 1},
     {&__pyx_n_s_seed_c, __pyx_k_seed_c, sizeof(__pyx_k_seed_c), 0, 0, 1, 1},
     {&__pyx_n_s_setstate, __pyx_k_setstate, sizeof(__pyx_k_setstate), 0, 0, 1, 1},
@@ -20190,7 +20190,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *     formula: list[list[int]],
  *     weight: list[float] | None = None,
  */
-  __pyx_tuple__21 = PyTuple_Pack(25, __pyx_n_s_formula, __pyx_n_s_weight, __pyx_n_s_seed, __pyx_n_s_max_time_s, __pyx_n_s_rand_var_prob, __pyx_n_s_clause, __pyx_n_s_literal, __pyx_n_s_num_clauses, __pyx_n_s_num_variables, __pyx_n_s_formula_flatten, __pyx_n_s_formula_flatten_np, __pyx_n_s_weight_np, __pyx_n_s_assignment_np, __pyx_n_s_seed_c, __pyx_n_s_max_time_s_c, __pyx_n_s_rand_var_prob_c, __pyx_n_s_num_variables_c, __pyx_n_s_num_clauses_c, __pyx_n_s_formula_flatten_c, __pyx_n_s_weight_c, __pyx_n_s_assignment_c, __pyx_n_s_satisfiable_c, __pyx_n_s_satisfiable, __pyx_n_s__20, __pyx_n_s_a); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_tuple__21 = PyTuple_Pack(25, __pyx_n_s_formula, __pyx_n_s_weight, __pyx_n_s_seed, __pyx_n_s_max_time_s, __pyx_n_s_rand_var_prob, __pyx_n_s_clause, __pyx_n_s_literal, __pyx_n_s_num_clauses, __pyx_n_s_num_variables, __pyx_n_s_formula_flatten, __pyx_n_s_formula_flatten_np, __pyx_n_s_weight_np, __pyx_n_s_assignment_np, __pyx_n_s_seed_c, __pyx_n_s_max_time_s_c, __pyx_n_s_rand_var_prob_c, __pyx_n_s_num_variables_c, __pyx_n_s_num_clauses_c, __pyx_n_s_formula_flatten_c, __pyx_n_s_weight_c, __pyx_n_s_assignment_c, __pyx_n_s_assignment_weight_c, __pyx_n_s_assignment_weight, __pyx_n_s__20, __pyx_n_s_a); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__21);
   __Pyx_GIVEREF(__pyx_tuple__21);
   __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(5, 0, 0, 25, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_walksat_wrapper_pyx, __pyx_n_s_walksat, 18, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 18, __pyx_L1_error)

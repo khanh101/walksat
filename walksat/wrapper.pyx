@@ -70,9 +70,9 @@ def walksat(
     cdef double[:] weight_c = weight_np
     cdef stdint.int8_t[:] assignment_c = assignment_np
 
-    satisfiable_c = c_walksat(seed_c, max_time_s_c, rand_var_prob_c, num_variables_c, num_clauses_c, &formula_flatten_c[0], &weight_c[0], &assignment_c[0])
+    assignment_weight_c = c_walksat(seed_c, max_time_s_c, rand_var_prob_c, num_variables_c, num_clauses_c, &formula_flatten_c[0], &weight_c[0], &assignment_c[0])
 
-    satisfiable = float(satisfiable_c)
+    assignment_weight = float(assignment_weight_c)
 
-    return satisfiable, [int(a) for a in assignment_np]
+    return assignment_weight, [int(a) for a in assignment_np]
 
