@@ -16,7 +16,7 @@ template<typename T> void copy_vector(std::vector<T>& target, const std::vector<
 }
 
 uint64_t weighted_random(const std::vector<double>& dist, double v) {
-    double sum_weight;
+    double sum_weight = 0;
     for (uint64_t i=0; i<dist.size(); i++) {
         sum_weight += dist[i];
     }
@@ -142,7 +142,7 @@ solution local_search_problem(const problem& problem, uint64_t seed, uint64_t ma
 
     init_solution(problem, solution, rand);
     uint64_t start_time_s = std::time(nullptr);
-    uint64_t loop_count;
+    uint64_t loop_count = 0;
 
     uint64_t best_assignment_weight = std::numeric_limits<uint64_t>::max();
     assign_t best_assignment(problem.num_variables+1);
@@ -185,10 +185,10 @@ solution local_search_problem(const problem& problem, uint64_t seed, uint64_t ma
             flip_var = abs(clause[uint64_t(rand() * clause.size())]);
         } else {
             // pick the var with most weight change
-            weight_t best_weigth_change = std::numeric_limits<double>::max();
+            weight_t best_weight_change = std::numeric_limits<double>::max();
             for (var_t var = 1; var <= problem.num_variables; var++) {
-                if (solution.var_flip_weight_change[var] < best_weigth_change) {
-                    best_weigth_change = solution.var_flip_weight_change[var];
+                if (solution.var_flip_weight_change[var] < best_weight_change) {
+                    best_weight_change = solution.var_flip_weight_change[var];
                     flip_var = var;
                 }
             }
