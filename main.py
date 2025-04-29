@@ -1,3 +1,4 @@
+import sys
 from typing import Iterator
 from walksat import walksat
 from mpi_runner import run_task, Task, MPI_Comm
@@ -33,9 +34,14 @@ def parse_dimacs(formula_dimacs: str) -> Iterator[list[list[int]]]:
         yield [c for c in problem if len(c) > 0]
 
 class MyTask(Task):
+    size: int
+    formula: list[list[int]]
+    weight: list[float]
+    seed: int
+    step: int
     def setup(self, comm = None):
         self.size = comm.get_size()
-        self.formula = list(parse_dimacs(formula_dimacs=open("formula.cnf").read()))[0]
+        self.formula = list(parse_dimacs(formula_dimacs=open(sys.argv[1]).read()))[0]
         self.weight = [1.0 for _ in range(len(self.formula))]
         self.weight[2] = 0
     
@@ -45,7 +51,7 @@ class MyTask(Task):
     
     def consume(self, result):
         best_num_unsat_clauses, assign = result
-        print(best_num_unsat_clauses, assign)
+        print(best_num_unsat_clauses)
 
     def setup_worker(self, comm = None):
         self.seed = comm.get_rank() + 1000
