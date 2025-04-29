@@ -159,7 +159,7 @@ class MyTask(Task):
             weight=weight,
             seed=self.seed,
             max_time_s=5,
-            rand_var_prob=0.3,
+            rand_var_prob=0.1,
         )
         self.seed += self.step
         return best_num_unsat_clauses, assignment
