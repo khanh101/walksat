@@ -186,7 +186,8 @@ solution local_search_problem(const problem& problem, uint64_t seed, uint64_t ma
         } else {
             // pick the var with most weight change
             weight_t best_weight_change = std::numeric_limits<double>::max();
-            for (var_t var = 1; var <= problem.num_variables; var++) {
+            for (lit_t lit : clause) {
+                var_t var = abs(lit);
                 if (solution.var_flip_weight_change[var] < best_weight_change) {
                     best_weight_change = solution.var_flip_weight_change[var];
                     flip_var = var;
