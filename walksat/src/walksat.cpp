@@ -134,7 +134,7 @@ solution local_search_problem(const problem& problem, uint64_t seed, uint64_t ma
     solution solution;
 
     std::uniform_real_distribution<double> dist_float01(0, 1);
-    std::default_random_engine engine(seed);
+    std::mt19937_64 engine(seed);
 
     rand_t rand = [&engine, &dist_float01]() -> double {
         return dist_float01(engine);
